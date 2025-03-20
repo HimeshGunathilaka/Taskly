@@ -1,7 +1,7 @@
 const Settings = () => {
   return (
-    <div className="container-fluid settings-container w-100 h-100">
-      <div className="container h-auto settings-wrapper d-flex flex-column p-3">
+    <div className="container-fluid settings-container w-100 h-100 p-0">
+      <div className="w-100 h-auto settings-wrapper d-flex flex-column p-3">
         <h1 className="settings-title mb-3">Account settings</h1>
         <ul className="w-100 p-0 m-0">
           <li>

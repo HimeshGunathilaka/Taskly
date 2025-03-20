@@ -108,7 +108,9 @@ const Task = ({ task }) => {
 
           <p
             className={`task-card-title ${
-              task?.status === "Completed" && `completed`
+              taskCompleted
+                ? `completed`
+                : task?.status === "Completed" && `completed`
             }`}
           >
             {task?.title}

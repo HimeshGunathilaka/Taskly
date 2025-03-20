@@ -163,6 +163,8 @@ button {
 .sidemenu-list-btn.active {
   background-color: var(--bs-black-v1);
   color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 /* Body */
@@ -170,6 +172,82 @@ button {
   width: auto;
   height: 100%;
   flex-grow: 1;
+}
+
+/* Dashboard */
+.dashboard-wrapper {
+  overflow-y: auto;
+}
+
+.dashboard-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid var(--bs-grey-v1);
+}
+
+.dashboard-header p {
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.dashboard-header img {
+  width: 40px;
+  height: 40px;
+}
+
+.dashboard-user-name,
+.dashboard-user-position {
+  font-size: 1rem;
+}
+
+.dashboard-user-position {
+  color: var(--bs-grey-v5);
+}
+
+.dashboard-analytics-card-content {
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  animation: popup 1s ease-in-out forwards;
+  transition: 0.3s ease-in-out;
+  min-height: 100px;
+}
+
+.dashboard-analytics-card-content h1,
+.dashboard-analytics-card-content p {
+  line-height: 1;
+}
+
+.dashboard-analytics-card-content h1 {
+  font-size: 1.5rem;
+}
+
+.dashboard-analytics-card-content p {
+  font-size: 0.8rem;
+}
+
+.dashboard-card-icon {
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 8px;
+  color: white;
+}
+
+.dashboard-card-icon.pending {
+  background-color: var(--bs-green-v2);
+}
+
+.dashboard-card-icon.overdue {
+  background-color: var(--bs-red-v2);
+}
+
+.dashboard-card-icon.completed {
+  background-color: var(--bs-blue-v1);
 }
 
 /* Tasks */
