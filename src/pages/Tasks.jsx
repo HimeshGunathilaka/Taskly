@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Task from "../components/Task";
 import { usePublicContext } from "../context/Context";
+import Loading from "../components/Loading";
 
 const Tasks = () => {
   const { keyword, setKeyword, list } = usePublicContext();

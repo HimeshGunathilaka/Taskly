@@ -6,6 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Layout from "./components/Layout";
 import Sidemenu from "./components/Sidemenu";
 import Body from "./components/Body";
+import Login from "./pages/Login";
 
 const list = [
   {
@@ -114,6 +115,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [navigation, setNavigation] = useState("/");
   const [keyword, setKeyword] = useState("");
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   return (
     <>
       <PublicContext.Provider
@@ -125,12 +127,18 @@ function App() {
           keyword,
           setKeyword,
           list,
+          isUserLoggedIn,
+          setIsUserLoggedIn,
         }}
       >
-        <Layout>
-          <Sidemenu />
-          <Body />
-        </Layout>
+        {isUserLoggedIn ? (
+          <Layout>
+            <Sidemenu />
+            <Body />
+          </Layout>
+        ) : (
+          <Login />
+        )}
       </PublicContext.Provider>
     </>
   );
