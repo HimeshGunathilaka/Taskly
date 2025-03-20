@@ -84,7 +84,25 @@ const Login = () => {
           </div>
         </div>
         <div className="col-6 login-right-container p-0">
-          <div className="w-100 h-100 login-right-image"></div>
+          <div className="w-100 h-100 login-right-image d-flex position-relative">
+            <div className="login-intro-box d-flex flex-column align-items-start rounded-4 mt-auto me-auto p-2 py-3">
+              <h1>Your Productivity Partner</h1>
+              <p className="mt-1">
+                Streamline tasks, boost efficiency effortlessly.
+              </p>
+            </div>
+            <div className="login-intro-box-2 d-flex flex-column align-items-start rounded-4 p-2 py-3">
+              <h1>300+</h1>
+              <p className="mt-1">World wide users.</p>
+              <span className="d-flex flex-row align-items-center w-100 mt-2">
+                <img src="/images/8104.jpg" />
+                <img src="/images/2148375505.jpg" />
+                <img src="/images/6384-copy.jpg" />
+                <img src="/images/255.jpg" />
+                <img src="/images/2148648911.jpg" />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

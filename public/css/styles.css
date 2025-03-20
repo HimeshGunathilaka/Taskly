@@ -24,6 +24,10 @@ body {
 
   background-color: white;
   color: var(--bs-black-v1) !important;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 * {
@@ -118,6 +122,63 @@ button {
 
 .login-form label {
   font-size: 0.9rem;
+}
+
+.login-intro-box {
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--bs-grey-v1);
+  margin-bottom: 200px;
+  margin-left: 1.2rem;
+}
+
+.login-intro-box-2 {
+  position: absolute;
+  z-index: 10;
+  width: 200px;
+  background-color: white;
+  border: 1px solid var(--bs-grey-v1);
+  bottom: 80px;
+  right: 1.5rem;
+}
+
+.login-intro-box h1,
+.login-intro-box p {
+  color: white;
+}
+
+.login-intro-box h1,
+.login-intro-box p,
+.login-intro-box-2 h1,
+.login-intro-box-2 p {
+  line-height: 1.5;
+}
+
+.login-intro-box h1,
+.login-intro-box-2 h1 {
+  text-align: start;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.login-intro-box p,
+.login-intro-box-2 p {
+  font-size: 0.8rem;
+  text-align: start;
+}
+
+.login-intro-box-2 img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: -10px;
+}
+
+.login-intro-box-2 img:first-child {
+  margin-left: 0px;
 }
 
 /* .login-form::after {
