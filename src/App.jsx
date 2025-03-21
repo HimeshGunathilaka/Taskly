@@ -115,7 +115,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [navigation, setNavigation] = useState("/");
   const [keyword, setKeyword] = useState("");
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
   return (
     <>
       <PublicContext.Provider

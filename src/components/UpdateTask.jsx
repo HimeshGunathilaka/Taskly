@@ -9,6 +9,11 @@ const UpdateTask = () => {
         </li>
         <li>
           <button className="p-0 px-3 m-0 w-100 py-2 d-flex flex-row justify-content-start">
+            <i className="bi bi-filetype-pdf me-2"></i>Export
+          </button>
+        </li>
+        <li>
+          <button className="p-0 px-3 m-0 w-100 py-2 d-flex flex-row justify-content-start">
             <i className="bi bi-trash3 me-2"></i>Delete
           </button>
         </li>

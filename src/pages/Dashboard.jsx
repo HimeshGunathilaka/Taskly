@@ -81,55 +81,94 @@ const Dashboard = () => {
     );
   }, [list]);
 
+  const TableRows = () => {
+    const rows = [];
+    for (let i = 0; i < 5; i++) {
+      rows.push(
+        <tr key={i}>
+          <td>Centro comercial Moctezuma</td>
+          <td>Francisco Chang</td>
+          <td>Mexico</td>
+          <td>Mexico</td>
+          <td>Mexico</td>
+        </tr>
+      );
+    }
+
+    return rows;
+  };
+
   return (
     <div className="container-fluid dashboard-container w-100 h-100 p-0">
-      <div className="h-auto w-100 dashboard-wrapper d-flex flex-column p-0">
-        <div className="dashboard-header d-flex flex-row align-items-center justify-content-between p-3">
-          <div className="d-flex flex-column">
-            <h1 className="dashboard-title">Welcome Meaghan Lownest!</h1>
-            <p>
-              Today is {weekdays[new Date().getDay()]}, {new Date().getDate()}
-              {new Date().getDate() === 1
-                ? "st"
-                : new Date().getDate() === 2
-                ? "nd"
-                : new Date().getDate() === 3
-                ? "rd"
-                : "th"}{" "}
-              {months[new Date().getMonth()]} {new Date().getFullYear()}
-            </p>
-          </div>
-          <div className="d-flex flex-row dashboard-user-container">
-            <img src="/images/8104.jpg" className="rounded-circle img-fluid" />
-            <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
-              <p className="dashboard-user-name">Meaghan Lownest</p>
-              <p className="dashboard-user-position">Admin</p>
-            </div>
+      <div className="dashboard-header d-flex flex-row align-items-center justify-content-between p-3">
+        <div className="d-flex flex-column">
+          <h1 className="dashboard-title">Welcome Meaghan Lownest!</h1>
+          <p>
+            Today is {weekdays[new Date().getDay()]}, {new Date().getDate()}
+            {new Date().getDate() === 1
+              ? "st"
+              : new Date().getDate() === 2
+              ? "nd"
+              : new Date().getDate() === 3
+              ? "rd"
+              : "th"}{" "}
+            {months[new Date().getMonth()]} {new Date().getFullYear()}
+          </p>
+        </div>
+        <div className="d-flex flex-row dashboard-user-container">
+          <img src="/images/8104.jpg" className="rounded-circle img-fluid" />
+          <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
+            <p className="dashboard-user-name">Meaghan Lownest</p>
+            <p className="dashboard-user-position">Admin</p>
           </div>
         </div>
-        <div className="dashboard-content p-3">
-          <div className="row w-100 p-0 row-gap-4">
-            <DashboardAnalyticsCard
-              item={{
-                type: "Pending",
-                count: pendingTasks.length,
-                title: "Total number of pending tasks",
-              }}
-            />
-            <DashboardAnalyticsCard
-              item={{
-                type: "Completed",
-                count: completedTasks.length,
-                title: "Total number of completed tasks",
-              }}
-            />
-            <DashboardAnalyticsCard
-              item={{
-                type: "Overdue",
-                count: overdueTasks.length,
-                title: "Total number of overdue tasks",
-              }}
-            />
+      </div>
+      <div className="dashboard-content d-flex flex-column">
+        <div className="row w-100 m-0 row-gap-4 p-3">
+          <DashboardAnalyticsCard
+            item={{
+              type: "Pending",
+              count: pendingTasks.length,
+              title: "Total number of pending tasks",
+            }}
+          />
+          <DashboardAnalyticsCard
+            item={{
+              type: "Completed",
+              count: completedTasks.length,
+              title: "Total number of completed tasks",
+            }}
+          />
+          <DashboardAnalyticsCard
+            item={{
+              type: "Overdue",
+              count: overdueTasks.length,
+              title: "Total number of overdue tasks",
+            }}
+          />
+        </div>
+        <div className="dashboard-table-container w-100 m-0 p-3">
+          <div className="dashboard-table-wrapper w-100">
+            <table>
+              <tr>
+                <th>Task</th>
+                <th>Priority</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+              {list?.map((task, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{task?.title}</td>
+                    <td>{task?.priority}</td>
+                    <td>{task?.category}</td>
+                    <td>{task?.date}</td>
+                    <td>{task?.time}</td>
+                  </tr>
+                );
+              })}
+            </table>
           </div>
         </div>
       </div>

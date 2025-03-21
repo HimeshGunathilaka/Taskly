@@ -31,7 +31,9 @@ const Sidemenu = () => {
       className={`sidemenu-container p-3 ${openSidemenu ? `open` : `close`}`}
     >
       <button
-        className="side-menu-toggle-btn rounded-circle"
+        className={`side-menu-toggle-btn rounded-circle ${
+          !openSidemenu && `closed`
+        }`}
         onClick={() => setOpenSideMenu(!openSidemenu)}
       >
         <i class="bi bi-arrows-angle-expand side-menu-toggle-icon"></i>
@@ -45,16 +47,7 @@ const Sidemenu = () => {
           />
           <h1 className="brand-name ms-2">Taskly</h1>
         </div>
-        {/* <div className="d-flex flex-row search-bar-holder align-items-center px-2 py-1 my-2 position-relative">
-          <i className="bi bi-search search-icon me-2"></i>
-          <input
-            type="text"
-            className="m-0"
-            placeholder="Search..."
-            onChange={(e) => setKeyword(e.target.value)}
-          />
-        </div> */}
-        <div className="sidemenu-list-wrapper flex-grow-1">
+        <div className="sidemenu-list-wrapper flex-grow-1 mt-3">
           <ul className="p-0 m-0">
             {navigations?.map((item, index) => {
               return (
