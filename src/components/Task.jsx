@@ -2,15 +2,6 @@ import { useEffect, useState } from "react";
 import UpdateTask from "./UpdateTask";
 import { usePublicContext } from "../context/Context";
 
-// const categories = [
-//   { type: "Work", icon: <i class="bi bi-suitcase-lg"></i> },
-//   { type: "Home", icon: <i className="bi bi-house"></i> },
-//   { type: "Finance", icon: <i className="bi bi-bank"></i> },
-//   { type: "Personal", icon: <i className="bi bi-person"></i> },
-//   { type: "Leisure", icon: <i className="bi bi-bicycle"></i> },
-//   { type: "Health", icon: <i className="bi bi-bandaid"></i> },
-// ];
-
 const Task = ({ task }) => {
   const [openTaskActions, setOpenTaskActions] = useState(false);
   const [hover, setHover] = useState(false);
@@ -42,13 +33,6 @@ const Task = ({ task }) => {
       >
         <div className="w-100 d-flex flex-column">
           <div className="w-100 d-flex flex-row justify-content-between">
-            {/* <span className="task-card-category-icon mb-3 d-flex justify-content-center align-items-center">
-              {categories
-                ?.filter((category) => category.type === task?.category)
-                .map((category) => {
-                  return category.icon;
-                })}
-            </span> */}
             <div className="d-flex flex-row align-items-center flex-wrap mb-3 task-card-details">
               <span
                 className={`${

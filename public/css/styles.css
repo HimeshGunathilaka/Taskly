@@ -14,6 +14,7 @@ body {
   --bs-black-v1: #212121;
   --bs-red-v1: rgb(255, 41, 41, 0.05);
   --bs-red-v2: #ff2929;
+  --bs-red-v3: #c62e2e;
   --bs-orange-v1: rgb(250, 129, 47, 0.05);
   --bs-orange-v2: #fa812f;
   --bs-green-v1: rgb(234, 250, 234, 0.5);
@@ -103,6 +104,15 @@ button {
 
   &:hover {
     background-color: var(--bs-green-v3);
+  }
+}
+
+.delete-task-cancel-btn {
+  background-color: var(--bs-red-v2);
+  color: white;
+
+  &:hover {
+    background-color: var(--bs-red-v3);
   }
 }
 
@@ -279,7 +289,8 @@ button {
 
 .popup-form-container {
   width: 400px;
-  height: 80%;
+  max-height: 80%;
+  height: auto;
 }
 
 .popup-wrapper {
@@ -799,6 +810,13 @@ button {
 .settings-wrapper ul li {
   border-bottom: 1px solid var(--bs-grey-v1);
   padding-bottom: 20px;
+}
+
+/* Delete task */
+.delete-popup-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* Keyframes */

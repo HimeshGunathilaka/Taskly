@@ -7,15 +7,22 @@ import UpdateTaskForm from "../components/UpdateTaskForm";
 import CreateTaskForm from "../components/CreateTaskForm";
 
 const Tasks = () => {
-  const { keyword, setKeyword, list } = usePublicContext();
+  const {
+    keyword,
+    setKeyword,
+    tasks,
+    openPopup,
+    setOpenPopup,
+    setPopupTitle,
+    popupTitle,
+  } = usePublicContext();
   const [priorityType, setPriorityType] = useState("All");
   const [categoryType, setCategoryType] = useState("All");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [statusType, setStatusType] = useState("All");
-  const [openPopup, setOpenPopup] = useState(false);
 
   useEffect(() => {
-    const filteredByKeyword = list?.filter((task) =>
+    const filteredByKeyword = tasks?.filter((task) =>
       keyword === ""
         ? task
         : task?.title
@@ -37,12 +44,12 @@ const Tasks = () => {
       priorityType === "All" ? task : priorityType === task?.priority
     );
     setFilteredTasks(filteredByAll);
-  }, [priorityType, keyword, categoryType, statusType, list]);
+  }, [priorityType, keyword, categoryType, statusType, tasks]);
 
   return (
     <>
       {openPopup && (
-        <Popup onClose={() => setOpenPopup(false)} title={"Create a new task"}>
+        <Popup onClose={() => setOpenPopup(false)} title={popupTitle}>
           <CreateTaskForm />
         </Popup>
       )}
@@ -93,6 +100,7 @@ const Tasks = () => {
               className="px-3 normal-btn create-task-btn"
               onClick={() => {
                 setOpenPopup(true);
+                setPopupTitle("Create a new task");
               }}
             >
               Create

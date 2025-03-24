@@ -28,10 +28,14 @@ const months = [
 ];
 
 const Dashboard = () => {
-  const { list } = usePublicContext();
+  const { tasks, refreshTasks } = usePublicContext();
   const [pendingTasks, setPendingTasks] = useState([]);
   const [overdueTasks, setOverdueTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
+
+  useEffect(() => {
+    refreshTasks();
+  }, []);
 
   const isOverdue = (currentDate, statedDate) => {
     const formatDate = (dateStr) => {
@@ -59,15 +63,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     setPendingTasks(
-      list?.filter(
+      tasks?.filter(
         (task) => task?.status === "To do" || task?.status === "In progress"
       )
     );
 
-    setCompletedTasks(list?.filter((task) => task?.status === "Completed"));
+    setCompletedTasks(tasks?.filter((task) => task?.status === "Completed"));
 
     setOverdueTasks(
-      list?.filter(
+      tasks?.filter(
         (task) =>
           isOverdue(
             new Date().getFullYear() +
@@ -79,30 +83,15 @@ const Dashboard = () => {
           ) && task
       )
     );
-  }, [list]);
-
-  const TableRows = () => {
-    const rows = [];
-    for (let i = 0; i < 5; i++) {
-      rows.push(
-        <tr key={i}>
-          <td>Centro comercial Moctezuma</td>
-          <td>Francisco Chang</td>
-          <td>Mexico</td>
-          <td>Mexico</td>
-          <td>Mexico</td>
-        </tr>
-      );
-    }
-
-    return rows;
-  };
+  }, [tasks]);
 
   return (
     <div className="container-fluid dashboard-container w-100 h-100 p-0">
       <div className="dashboard-header d-flex flex-row align-items-center justify-content-between p-3">
         <div className="d-flex flex-column">
-          <h1 className="dashboard-title">Welcome Meaghan Lownest!</h1>
+          <h1 className="dashboard-title">
+            Welcome {localStorage.getItem("user-name")}!
+          </h1>
           <p>
             Today is {weekdays[new Date().getDay()]}, {new Date().getDate()}
             {new Date().getDate() === 1
@@ -118,8 +107,12 @@ const Dashboard = () => {
         <div className="d-flex flex-row dashboard-user-container">
           <img src="/images/8104.jpg" className="rounded-circle img-fluid" />
           <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
-            <p className="dashboard-user-name">Meaghan Lownest</p>
-            <p className="dashboard-user-position">Admin</p>
+            <p className="dashboard-user-name">
+              {localStorage.getItem("user-name")}
+            </p>
+            <p className="dashboard-user-position">
+              {localStorage.getItem("user-role")}
+            </p>
           </div>
         </div>
       </div>
@@ -155,16 +148,18 @@ const Dashboard = () => {
                 <th>Priority</th>
                 <th>Category</th>
                 <th>Date</th>
-                <th>Time</th>
+                <th>Created on</th>
+                <th>Updated on</th>
               </tr>
-              {list?.map((task, index) => {
+              {tasks?.map((task, index) => {
                 return (
                   <tr key={index}>
                     <td>{task?.title}</td>
                     <td>{task?.priority}</td>
                     <td>{task?.category}</td>
                     <td>{task?.date}</td>
-                    <td>{task?.time}</td>
+                    <td>{task?.created_at}</td>
+                    <td>{task?.updated_at}</td>
                   </tr>
                 );
               })}
