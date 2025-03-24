@@ -99,7 +99,7 @@ const Tasks = () => {
             </button>
           </span>
         </div>
-        <div className="tasks-wrapper row row-gap-4 m-0 p-0">
+        <div className="tasks-wrapper row row-gap-4 m-0 p-0 pb-3">
           {filteredTasks?.length ? (
             filteredTasks?.map((task, index) => {
               return <Task key={index} task={task} />;
