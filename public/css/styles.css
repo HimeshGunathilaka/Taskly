@@ -28,6 +28,7 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  overflow: hidden;
 }
 
 * {
@@ -61,6 +62,14 @@ select {
 
 .date-picker {
   cursor: pointer;
+}
+
+.error-text {
+  color: var(--bs-red-v2);
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
 }
 
 button {
@@ -263,9 +272,14 @@ button {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.popup-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .popup-form-container {
   width: 400px;
-  height: 60%;
+  height: 80%;
 }
 
 .popup-wrapper {

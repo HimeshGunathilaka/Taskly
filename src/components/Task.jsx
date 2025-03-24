@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import UpdateTask from "./UpdateTask";
+import { usePublicContext } from "../context/Context";
 
 // const categories = [
 //   { type: "Work", icon: <i class="bi bi-suitcase-lg"></i> },
@@ -14,6 +15,7 @@ const Task = ({ task }) => {
   const [openTaskActions, setOpenTaskActions] = useState(false);
   const [hover, setHover] = useState(false);
   const [taskCompleted, setTaskCompleted] = useState(false);
+  const { setSelectedTask } = usePublicContext();
 
   useEffect(() => {
     setOpenTaskActions(false);
@@ -121,7 +123,10 @@ const Task = ({ task }) => {
           <p className="p-0 m-0">{task?.date}</p>
           <button
             className="task-actions-btn rounded-2 ms-auto"
-            onClick={() => setOpenTaskActions(!openTaskActions)}
+            onClick={() => {
+              setSelectedTask(task);
+              setOpenTaskActions(!openTaskActions);
+            }}
           >
             <i className="bi bi-three-dots icon"></i>
           </button>

@@ -116,6 +116,7 @@ function App() {
   const [navigation, setNavigation] = useState("/");
   const [keyword, setKeyword] = useState("");
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+  const [selectedTask, setSelectedTask] = useState(null);
   return (
     <>
       <PublicContext.Provider
@@ -129,6 +130,8 @@ function App() {
           list,
           isUserLoggedIn,
           setIsUserLoggedIn,
+          selectedTask,
+          setSelectedTask,
         }}
       >
         {isUserLoggedIn ? (
