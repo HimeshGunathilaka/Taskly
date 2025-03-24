@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { usePublicContext } from "../context/Context";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("* Title is required"),
-  category: Yup.string().required("* Category is required"),
+  category: Yup.string()
+    .oneOf(["Work", "Finance", "Leisure", "Health", "Personal", "Home"])
+    .required("* Category is required"),
   priority: Yup.string()
     .oneOf(["High", "Medium", "Low"])
     .required("* Priority is required"),
@@ -15,31 +15,24 @@ const validationSchema = Yup.object({
   date: Yup.date().required("* Date is required").nullable(),
 });
 
-const UpdateTaskForm = () => {
-  const { selectedTask } = usePublicContext();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (selectedTask) setIsLoading(false);
-  }, [selectedTask]);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
+const CreateTaskForm = () => {
+  const handleSubmit = (values, setSubmitting) => {
+    console.log("Form submitted with values:", values);
+    // resetForm();
+    setSubmitting(false);
+  };
   return (
     <Formik
       initialValues={{
-        title: selectedTask?.title || "",
-        category: selectedTask?.category || "",
-        priority: selectedTask?.priority || "Low",
-        status: selectedTask?.status || "To do",
-        date: selectedTask?.date || "",
+        title: "",
+        category: "",
+        priority: "",
+        status: "",
+        date: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log("Updated task:", values);
-        setSubmitting(false);
+        handleSubmit(values, setSubmitting);
       }}
     >
       {({ isSubmitting }) => (
@@ -87,6 +80,7 @@ const UpdateTaskForm = () => {
             name="priority"
             className="m-0 mt-2 px-2 py-1"
           >
+            <option value="">Select a priority</option>
             <option value="High">High</option>
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
@@ -106,6 +100,7 @@ const UpdateTaskForm = () => {
             name="status"
             className="m-0 mt-2 px-2 py-1"
           >
+            <option value="">Select a status</option>
             <option value="To do">To do</option>
             <option value="In progress">In progress</option>
             <option value="Completed">Completed</option>
@@ -125,7 +120,7 @@ const UpdateTaskForm = () => {
 
           <button
             type="submit"
-            className="submit-btn mt-3 py-2"
+            className="submit-btn mt-3 py-3"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Please wait..." : "Submit"}
@@ -136,4 +131,4 @@ const UpdateTaskForm = () => {
   );
 };
 
-export default UpdateTaskForm;
+export default CreateTaskForm;

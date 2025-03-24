@@ -4,6 +4,7 @@ import { usePublicContext } from "../context/Context";
 import Loading from "../components/Loading";
 import Popup from "../components/Popup";
 import UpdateTaskForm from "../components/UpdateTaskForm";
+import CreateTaskForm from "../components/CreateTaskForm";
 
 const Tasks = () => {
   const { keyword, setKeyword, list } = usePublicContext();
@@ -41,8 +42,8 @@ const Tasks = () => {
   return (
     <>
       {openPopup && (
-        <Popup onClose={() => setOpenPopup(false)}>
-          <UpdateTaskForm />
+        <Popup onClose={() => setOpenPopup(false)} title={"Create a new task"}>
+          <CreateTaskForm />
         </Popup>
       )}
       <div className="container-fluid tasks-container w-100 h-100 p-0">
