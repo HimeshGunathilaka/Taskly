@@ -77,7 +77,7 @@ const Dashboard = () => {
               "-" +
               new Date().getDate(),
             task?.date
-          ) && task
+          ) && task?.status !== "Completed"
       )
     );
   }, [tasks]);
