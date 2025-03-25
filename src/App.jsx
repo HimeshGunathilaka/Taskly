@@ -26,15 +26,23 @@ function App() {
     try {
       const result = await service.getTasks();
       if (result?.status === 200) {
-        const list = result?.data.map((task) => {
-          return {
-            user_id: task?.user_id,
-            ...task,
-          };
-        });
+        const userId = parseInt(localStorage.getItem("user-id"), 10);
+        if (isNaN(userId)) {
+          console.warn("User ID is not valid");
+          setTasks([]);
+          return;
+        }
+        const list = result?.data
+          .filter((task) => task?.user_id === userId)
+          .map((task) => {
+            return {
+              user_id: task?.user_id,
+              ...task,
+            };
+          });
         setTasks(list);
       }
-      // console.log(result?.data);
+      console.log(result?.data);
     } catch (error) {
       console.log(error.message);
     }
