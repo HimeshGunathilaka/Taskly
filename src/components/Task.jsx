@@ -82,7 +82,7 @@ const Task = ({ task }) => {
                   id="cbx-12"
                   type="checkbox"
                   checked={task?.status === "Completed" ? true : false}
-                  onClick={() => {
+                  onChange={() => {
                     changeStatusToCompleted(task?.id);
                   }}
                 />
