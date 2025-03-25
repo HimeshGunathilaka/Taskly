@@ -3,8 +3,13 @@ import { usePublicContext } from "../context/Context";
 import service from "../services/service";
 
 const DeleteTaskPopup = ({ onClose }) => {
-  const { setPopupTitle, selectedTask, alert, refreshTasks } =
-    usePublicContext();
+  const {
+    setPopupTitle,
+    selectedTask,
+    alert,
+    refreshTasks,
+    setOpenTaskActions,
+  } = usePublicContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const deleteTask = async () => {
@@ -24,6 +29,7 @@ const DeleteTaskPopup = ({ onClose }) => {
       setIsLoading(false);
       onClose();
       refreshTasks();
+      setOpenTaskActions(false);
     }
   };
 
@@ -44,7 +50,10 @@ const DeleteTaskPopup = ({ onClose }) => {
         </button>
         <button
           className="delete-task-cancel-btn px-3 py-2"
-          onClick={() => onClose()}
+          onClick={() => {
+            setOpenTaskActions(false);
+            onClose();
+          }}
         >
           Close
         </button>

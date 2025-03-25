@@ -1,23 +1,43 @@
 import { useEffect, useState } from "react";
 import UpdateTask from "./UpdateTask";
 import { usePublicContext } from "../context/Context";
+import service from "../services/service";
 
 const Task = ({ task }) => {
-  const [openTaskActions, setOpenTaskActions] = useState(false);
   const [hover, setHover] = useState(false);
-  const [taskCompleted, setTaskCompleted] = useState(false);
-  const { setSelectedTask } = usePublicContext();
+  const {
+    setSelectedTask,
+    refreshTasks,
+    alert,
+    openTaskActions,
+    setOpenTaskActions,
+    selectedTask,
+  } = usePublicContext();
 
   useEffect(() => {
     setOpenTaskActions(false);
   }, []);
 
-  useEffect(() => {
-    setTaskCompleted(task?.status === "Completed" ? true : false);
-  }, [task]);
+  const changeStatusToCompleted = async (id) => {
+    try {
+      const result = await service.updateTaskStatusToCompleted(id);
+
+      if (result.status === 200) {
+        console.log(result.message);
+        alert(false, result?.message);
+      } else {
+        alert(true, result?.message);
+      }
+    } catch (error) {
+      alert(true, error.message);
+      console.log(error);
+    } finally {
+      refreshTasks();
+    }
+  };
   return (
     <div className="task-card col-xl-4 col-lg-4 col-md-6 col-sm-12">
-      {openTaskActions && <UpdateTask />}
+      {openTaskActions && selectedTask?.id === task?.id && <UpdateTask />}
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -47,12 +67,10 @@ const Task = ({ task }) => {
               </span>
               <span
                 className={`${
-                  taskCompleted
-                    ? `completed`
-                    : task?.status === "Completed" && `completed`
+                  task?.status === "Completed" && `completed`
                 } px-2 py-1 rounded-pill task-card-status me-2`}
               >
-                {taskCompleted ? "Completed" : task?.status}
+                {task?.status}
               </span>
               <span className="px-2 py-1 rounded-pill task-card-category">
                 {task?.category}
@@ -63,8 +81,10 @@ const Task = ({ task }) => {
                 <input
                   id="cbx-12"
                   type="checkbox"
-                  checked={taskCompleted}
-                  onClick={() => setTaskCompleted(!taskCompleted)}
+                  checked={task?.status === "Completed" ? true : false}
+                  onClick={() => {
+                    changeStatusToCompleted(task?.id);
+                  }}
                 />
                 <label for="cbx-12"></label>
                 <svg width="15" height="14" viewbox="0 0 15 14" fill="none">
@@ -94,9 +114,7 @@ const Task = ({ task }) => {
 
           <p
             className={`task-card-title ${
-              taskCompleted
-                ? `completed`
-                : task?.status === "Completed" && `completed`
+              task?.status === "Completed" && `completed`
             }`}
           >
             {task?.title}

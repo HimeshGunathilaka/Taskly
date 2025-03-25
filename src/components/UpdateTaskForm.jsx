@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { usePublicContext } from "../context/Context";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import service from "../services/service";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("* Title is required"),
@@ -15,8 +16,9 @@ const validationSchema = Yup.object({
   date: Yup.date().required("* Date is required").nullable(),
 });
 
-const UpdateTaskForm = () => {
-  const { selectedTask } = usePublicContext();
+const UpdateTaskForm = ({ onClose }) => {
+  const { selectedTask, alert, refreshTasks, setOpenTaskActions } =
+    usePublicContext();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +28,35 @@ const UpdateTaskForm = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  const handleSubmit = async (values, setSubmitting, resetForm) => {
+    try {
+      const result = await service.updateTask(selectedTask?.id, {
+        user_id: localStorage.getItem("user-id"),
+        title: values.title,
+        category: values.category,
+        status: values.status,
+        priority: values.priority,
+        date: values.date,
+      });
+
+      if (result.status === 200) {
+        console.log(result.message);
+        alert(false, result?.message);
+      } else {
+        alert(true, result?.message);
+      }
+    } catch (error) {
+      alert(true, error.message);
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+      refreshTasks();
+      resetForm();
+      onClose();
+      setOpenTaskActions(false);
+    }
+  };
 
   return (
     <Formik
@@ -37,9 +68,8 @@ const UpdateTaskForm = () => {
         date: selectedTask?.date || "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        console.log("Updated task:", values);
-        setSubmitting(false);
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        handleSubmit(values, setSubmitting, resetForm);
       }}
     >
       {({ isSubmitting }) => (

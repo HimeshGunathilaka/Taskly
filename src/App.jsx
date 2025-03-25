@@ -114,6 +114,7 @@ import service from "./services/service";
 // ];
 
 function App() {
+  const [openTaskActions, setOpenTaskActions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [navigation, setNavigation] = useState("/");
   const [keyword, setKeyword] = useState("");
@@ -195,6 +196,8 @@ function App() {
           setOpenPopup,
           popupTitle,
           setPopupTitle,
+          openTaskActions,
+          setOpenTaskActions,
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />

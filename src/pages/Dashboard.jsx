@@ -87,7 +87,7 @@ const Dashboard = () => {
 
   return (
     <div className="container-fluid dashboard-container w-100 h-100 p-0">
-      <div className="dashboard-header d-flex flex-row align-items-center justify-content-between p-3">
+      <div className="dashboard-header d-flex flex-row flex-wrap gap-3 row-gap-4 align-items-center justify-content-between p-3">
         <div className="d-flex flex-column">
           <h1 className="dashboard-title">
             Welcome {localStorage.getItem("user-name")}!
@@ -145,6 +145,7 @@ const Dashboard = () => {
             <table>
               <tr>
                 <th>Task</th>
+                <th>Status</th>
                 <th>Priority</th>
                 <th>Category</th>
                 <th>Date</th>
@@ -155,8 +156,33 @@ const Dashboard = () => {
                 return (
                   <tr key={index}>
                     <td>{task?.title}</td>
-                    <td>{task?.priority}</td>
-                    <td>{task?.category}</td>
+                    <td>
+                      <span
+                        className={`${
+                          task?.status === "Completed" && `completed`
+                        } px-2 py-1 rounded-pill task-card-status me-2`}
+                      >
+                        {task?.status}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={`${
+                          task?.priority === "High"
+                            ? `high`
+                            : task?.priority === "Medium"
+                            ? `medium`
+                            : `low`
+                        } px-2 py-1 rounded-pill task-card-priority me-2`}
+                      >
+                        {task?.priority}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="px-2 py-1 rounded-pill task-card-category">
+                        {task?.category}
+                      </span>
+                    </td>
                     <td>{task?.date}</td>
                     <td>{task?.created_at}</td>
                     <td>{task?.updated_at}</td>

@@ -3,11 +3,12 @@ import Popup from "./Popup";
 import UpdateTaskForm from "./UpdateTaskForm";
 import DeleteTaskPopup from "./DeleteTaskPopup";
 import { usePublicContext } from "../context/Context";
+import ExportPDF from "./ExportPdf";
 
 const UpdateTask = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [action, setAction] = useState("update");
-  const { popupTitle, setPopupTitle } = usePublicContext();
+  const { popupTitle, setPopupTitle, selectedTask } = usePublicContext();
 
   const handleClick = (action) => {
     if (action === "update") {
@@ -23,11 +24,14 @@ const UpdateTask = () => {
       {openPopup && (
         <Popup onClose={() => setOpenPopup(false)} title={popupTitle}>
           {action === "update" ? (
-            <UpdateTaskForm />
+            <UpdateTaskForm onClose={() => setOpenPopup(false)} />
           ) : action === "delete" ? (
             <DeleteTaskPopup onClose={() => setOpenPopup(false)} />
           ) : (
-            <></>
+            <ExportPDF
+              onClose={() => setOpenPopup(false)}
+              task={selectedTask}
+            />
           )}
         </Popup>
       )}

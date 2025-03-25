@@ -45,6 +45,34 @@ const createTask = async (values) => {
   }
 };
 
+const updateTask = async (id, values) => {
+  try {
+    const result = await axios.put(`${api}/tasks/update-task/${id}`, values);
+
+    return {
+      message: result?.data.message,
+      data: result?.data.data,
+      status: result.status,
+    };
+  } catch (error) {
+    return { message: error.response.data.message, status: 500 };
+  }
+};
+
+const updateTaskStatusToCompleted = async (id) => {
+  try {
+    const result = await axios.put(`${api}/tasks/update-task-status/${id}`);
+
+    return {
+      message: result?.data.message,
+      data: result?.data.data,
+      status: result.status,
+    };
+  } catch (error) {
+    return { message: error.response.data.message, status: 500 };
+  }
+};
+
 const getTasks = async () => {
   try {
     const result = await axios.get(`${api}/tasks/`);
@@ -73,4 +101,12 @@ const deleteTask = async (id) => {
   }
 };
 
-export default { signIn, signUp, createTask, getTasks, deleteTask };
+export default {
+  signIn,
+  signUp,
+  createTask,
+  getTasks,
+  deleteTask,
+  updateTask,
+  updateTaskStatusToCompleted,
+};
