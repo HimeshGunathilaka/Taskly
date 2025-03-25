@@ -28,7 +28,7 @@ const Sidemenu = () => {
   }, []);
   return (
     <div className={`sidemenu-container ${openSidemenu ? `open` : `close`}`}>
-      <div className="sidemenu-container-wrapper p-3">
+      <div className="sidemenu-container-wrapper p-3 overflow-hidden">
         <button
           className={`side-menu-toggle-btn rounded-circle ${
             !openSidemenu && `closed`
