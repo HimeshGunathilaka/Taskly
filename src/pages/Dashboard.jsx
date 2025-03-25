@@ -46,17 +46,14 @@ const Dashboard = () => {
     let date1 = formatDate(currentDate);
     let date2 = formatDate(statedDate);
 
-    console.log(currentDate);
-    console.log(statedDate);
-
     if (date1 < date2) {
-      console.log(`${currentDate} is less than ${statedDate}`);
+      // console.log(`${currentDate} is less than ${statedDate}`);
       return false;
     } else if (date1 > date2) {
-      console.log(`${currentDate} is greater than ${statedDate}`);
+      // console.log(`${currentDate} is greater than ${statedDate}`);
       return true;
     } else {
-      console.log(`Both dates are equal`);
+      // console.log(`Both dates are equal`);
       return false;
     }
   };
@@ -140,58 +137,66 @@ const Dashboard = () => {
             }}
           />
         </div>
-        <div className="dashboard-table-container w-100 m-0 p-3">
-          <div className="dashboard-table-wrapper w-100">
-            <table>
-              <tr>
-                <th>Task</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Created on</th>
-                <th>Updated on</th>
-              </tr>
-              {tasks?.map((task, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{task?.title}</td>
-                    <td>
-                      <span
-                        className={`${
-                          task?.status === "Completed" && `completed`
-                        } px-2 py-1 rounded-pill task-card-status me-2`}
-                      >
-                        {task?.status}
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={`${
-                          task?.priority === "High"
-                            ? `high`
-                            : task?.priority === "Medium"
-                            ? `medium`
-                            : `low`
-                        } px-2 py-1 rounded-pill task-card-priority me-2`}
-                      >
-                        {task?.priority}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="px-2 py-1 rounded-pill task-card-category">
-                        {task?.category}
-                      </span>
-                    </td>
-                    <td>{task?.date}</td>
-                    <td>{task?.created_at}</td>
-                    <td>{task?.updated_at}</td>
+        {tasks?.length > 0 ? (
+          <div className="dashboard-table-container w-100 m-0 p-3">
+            <div className="dashboard-table-wrapper w-100">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Created on</th>
+                    <th>Updated on</th>
                   </tr>
-                );
-              })}
-            </table>
+                </thead>
+                <tbody>
+                  {tasks?.map((task, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{task?.title}</td>
+                        <td>
+                          <span
+                            className={`${
+                              task?.status === "Completed" && `completed`
+                            } px-2 py-1 rounded-pill task-card-status me-2`}
+                          >
+                            {task?.status}
+                          </span>
+                        </td>
+                        <td>
+                          <span
+                            className={`${
+                              task?.priority === "High"
+                                ? `high`
+                                : task?.priority === "Medium"
+                                ? `medium`
+                                : `low`
+                            } px-2 py-1 rounded-pill task-card-priority me-2`}
+                          >
+                            {task?.priority}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="px-2 py-1 rounded-pill task-card-category">
+                            {task?.category}
+                          </span>
+                        </td>
+                        <td>{task?.date}</td>
+                        <td>{task?.created_at}</td>
+                        <td>{task?.updated_at}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -29,7 +29,10 @@ const Task = ({ task }) => {
         alert(true, result?.message);
       }
     } catch (error) {
-      alert(true, error.message);
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
       console.log(error);
     } finally {
       refreshTasks();
@@ -86,8 +89,8 @@ const Task = ({ task }) => {
                     changeStatusToCompleted(task?.id);
                   }}
                 />
-                <label for="cbx-12"></label>
-                <svg width="15" height="14" viewbox="0 0 15 14" fill="none">
+                <label htmlFor="cbx-12"></label>
+                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
                   <path d="M2 8.36364L6.23077 12L13 2"></path>
                 </svg>
               </div>
@@ -96,7 +99,7 @@ const Task = ({ task }) => {
                   <filter id="goo-12">
                     <fegaussianblur
                       in="SourceGraphic"
-                      stddeviation="4"
+                      stdDeviation="4"
                       result="blur"
                     ></fegaussianblur>
                     <fecolormatrix

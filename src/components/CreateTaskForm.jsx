@@ -38,8 +38,11 @@ const CreateTaskForm = () => {
         alert(true, result?.message);
       }
     } catch (error) {
-      alert(true, error.message);
-      console.log(error);
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
+      console.log(error.message);
     } finally {
       setSubmitting(false);
       refreshTasks();

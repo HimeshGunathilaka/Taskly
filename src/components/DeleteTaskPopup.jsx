@@ -24,7 +24,11 @@ const DeleteTaskPopup = ({ onClose }) => {
         alert(true, result?.message);
       }
     } catch (error) {
-      alert(true, error.message);
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
+      console.log(error.message);
     } finally {
       setIsLoading(false);
       onClose();

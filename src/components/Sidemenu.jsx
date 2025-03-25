@@ -3,17 +3,17 @@ import { usePublicContext } from "../context/Context";
 
 const navigations = [
   {
-    icon: <i class="bi bi-boxes icon me-3"></i>,
+    icon: <i className="bi bi-boxes icon me-3"></i>,
     title: "Dashboard",
     path: "/",
   },
   {
-    icon: <i class="bi bi-list-task icon me-3"></i>,
+    icon: <i className="bi bi-list-task icon me-3"></i>,
     title: "To do list",
     path: "/to-do",
   },
   {
-    icon: <i class="bi bi-gear icon me-3"></i>,
+    icon: <i className="bi bi-gear icon me-3"></i>,
     title: "Settings",
     path: "/settings",
   },
@@ -43,7 +43,7 @@ const Sidemenu = () => {
           }`}
           onClick={() => setOpenSideMenu(!openSidemenu)}
         >
-          <i class="bi bi-arrows-angle-expand side-menu-toggle-icon"></i>
+          <i className="bi bi-arrows-angle-expand side-menu-toggle-icon"></i>
         </button>
         <div className="sidemenu-wrapper h-100 w-100 d-flex flex-column">
           <div className="d-flex flex-row align-items-center justify-content-start w-100 mb-3">

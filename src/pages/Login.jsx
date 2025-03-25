@@ -28,7 +28,7 @@ const Login = () => {
     confirm_password: "",
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, setSubmitting, resetForm) => {
     let result = {};
     try {
       if (isLogin) {
@@ -65,11 +65,16 @@ const Login = () => {
       console.log(result);
       setSubmitting(false);
     } catch (error) {
-      alert(true, error.message);
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
       localStorage.setItem("user-id", "");
       localStorage.setItem("user-name", "");
       localStorage.setItem("user-role", "");
       console.log(error);
+    } finally {
+      resetForm();
     }
   };
 
@@ -99,7 +104,10 @@ const Login = () => {
             <Formik
               initialValues={initialValues}
               validationSchema={isLogin ? loginSchema : signupSchema}
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                handleSubmit(values, setSubmitting, resetForm);
+              }}
             >
               {({ isSubmitting }) => (
                 <Form className="mt-4">

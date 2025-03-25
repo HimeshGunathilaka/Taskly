@@ -14,9 +14,9 @@ const DashboardAnalyticsCard = ({ item }) => {
           {item?.type === "Pending" ? (
             <i className="bi bi-hourglass-split"></i>
           ) : item?.type === "Completed" ? (
-            <i class="bi bi-hourglass-bottom"></i>
+            <i className="bi bi-hourglass-bottom"></i>
           ) : (
-            <i class="bi bi-alarm"></i>
+            <i className="bi bi-alarm"></i>
           )}
         </span>
         <div className="d-flex flex-column align-items-start flex-grow-1 ms-2">
