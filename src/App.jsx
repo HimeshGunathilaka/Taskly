@@ -42,8 +42,11 @@ function App() {
           });
         setTasks(list);
       }
-      // console.log(result?.data);
     } catch (error) {
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
       console.log(error.message);
     }
   };

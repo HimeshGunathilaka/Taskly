@@ -23,7 +23,6 @@ const Task = ({ task }) => {
       const result = await service.updateTaskStatusToCompleted(id);
 
       if (result.status === 200) {
-        console.log(result.message);
         alert(false, result?.message);
       } else {
         alert(true, result?.message);

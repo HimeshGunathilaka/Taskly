@@ -18,7 +18,6 @@ const DeleteTaskPopup = ({ onClose }) => {
       const result = await service.deleteTask(selectedTask?.id);
 
       if (result.status === 200) {
-        console.log(result.message);
         alert(false, result?.message);
       } else {
         alert(true, result?.message);

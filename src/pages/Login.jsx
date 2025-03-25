@@ -56,13 +56,11 @@ const Login = () => {
         });
 
         if (result.status === 200) {
-          console.log(result.message);
           alert(false, result?.message);
         } else {
           alert(true, result?.message);
         }
       }
-      console.log(result);
       setSubmitting(false);
     } catch (error) {
       alert(
@@ -72,7 +70,7 @@ const Login = () => {
       localStorage.setItem("user-id", "");
       localStorage.setItem("user-name", "");
       localStorage.setItem("user-role", "");
-      console.log(error);
+      console.log(error.message);
     } finally {
       resetForm();
     }
