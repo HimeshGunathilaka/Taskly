@@ -107,7 +107,7 @@ function App() {
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />
-        {isUserLoggedIn ? (
+        {localStorage.getItem("user-id") !== "" ? (
           <Layout>
             <Sidemenu />
             <Body />

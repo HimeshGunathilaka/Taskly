@@ -104,7 +104,6 @@ const Login = () => {
             <Formik
               initialValues={initialValues}
               validationSchema={isLogin ? loginSchema : signupSchema}
-              // onSubmit={handleSubmit}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 handleSubmit(values, setSubmitting, resetForm);
               }}

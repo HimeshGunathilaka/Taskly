@@ -47,13 +47,10 @@ const Dashboard = () => {
     let date2 = formatDate(statedDate);
 
     if (date1 < date2) {
-      // console.log(`${currentDate} is less than ${statedDate}`);
       return false;
     } else if (date1 > date2) {
-      // console.log(`${currentDate} is greater than ${statedDate}`);
       return true;
     } else {
-      // console.log(`Both dates are equal`);
       return false;
     }
   };
@@ -86,10 +83,7 @@ const Dashboard = () => {
     <div className="container-fluid dashboard-container w-100 h-100 p-0">
       <div className="dashboard-header d-flex flex-row flex-wrap gap-3 row-gap-4 align-items-center justify-content-between p-3">
         <div className="d-flex flex-column">
-          <h1 className="dashboard-title">
-            {/* Welcome {localStorage.getItem("user-name")}! */}
-            Welcome {user?.username}!
-          </h1>
+          <h1 className="dashboard-title">Welcome {user?.username}!</h1>
           <p>
             Today is {weekdays[new Date().getDay()]}, {new Date().getDate()}
             {new Date().getDate() === 1
@@ -105,14 +99,8 @@ const Dashboard = () => {
         <div className="d-flex flex-row dashboard-user-container">
           <img src="/images/8104.jpg" className="rounded-circle img-fluid" />
           <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
-            <p className="dashboard-user-name">
-              {/* {localStorage.getItem("user-name")} */}
-              {user?.username}
-            </p>
-            <p className="dashboard-user-position">
-              {/* {localStorage.getItem("user-role")} */}
-              {user?.role}
-            </p>
+            <p className="dashboard-user-name">{user?.username}</p>
+            <p className="dashboard-user-position">{user?.role}</p>
           </div>
         </div>
       </div>
