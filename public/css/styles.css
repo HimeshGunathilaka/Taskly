@@ -461,12 +461,18 @@ button {
 }
 
 .dashboard-analytics-card-content h1,
-.dashboard-analytics-card-content p {
+.dashboard-analytics-card-content p,
+.dashboard-analytics-card-content h2 {
   line-height: 1;
 }
 
 .dashboard-analytics-card-content h1 {
   font-size: 1.5rem;
+}
+
+.dashboard-analytics-card-content h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 .dashboard-analytics-card-content p {
@@ -492,6 +498,15 @@ button {
   background-color: var(--bs-blue-v1);
 }
 
+.dashboard-table-card-wrapper {
+  animation: popup 1s ease-in-out forwards;
+}
+
+.dashboard-table-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .dashboard-table-container {
   position: relative;
   max-width: 100%;
@@ -500,7 +515,6 @@ button {
 }
 
 .dashboard-table-wrapper {
-  animation: popup 1s ease-in-out forwards;
   width: 100%;
   overflow-x: auto !important;
   position: relative;

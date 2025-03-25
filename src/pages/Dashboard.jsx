@@ -138,60 +138,65 @@ const Dashboard = () => {
           />
         </div>
         {tasks?.length > 0 ? (
-          <div className="dashboard-table-container w-100 m-0 p-3">
-            <div className="dashboard-table-wrapper w-100">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Task</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th>Created on</th>
-                    <th>Updated on</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tasks?.map((task, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{task?.title}</td>
-                        <td>
-                          <span
-                            className={`${
-                              task?.status === "Completed" && `completed`
-                            } px-2 py-1 rounded-pill task-card-status me-2`}
-                          >
-                            {task?.status}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className={`${
-                              task?.priority === "High"
-                                ? `high`
-                                : task?.priority === "Medium"
-                                ? `medium`
-                                : `low`
-                            } px-2 py-1 rounded-pill task-card-priority me-2`}
-                          >
-                            {task?.priority}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 rounded-pill task-card-category">
-                            {task?.category}
-                          </span>
-                        </td>
-                        <td>{task?.date}</td>
-                        <td>{task?.created_at}</td>
-                        <td>{task?.updated_at}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+          <div className="p-3 d-flex flex-column w-100 dashboard-table-card-wrapper">
+            <h1 className="mt-3 dashboard-table-header mb-3">
+              Available tasks
+            </h1>
+            <div className="dashboard-table-container w-100 m-0 d-flex">
+              <div className="dashboard-table-wrapper w-100">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Task</th>
+                      <th>Status</th>
+                      <th>Priority</th>
+                      <th>Category</th>
+                      <th>Date</th>
+                      <th>Created on</th>
+                      <th>Updated on</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tasks?.map((task, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{task?.title}</td>
+                          <td>
+                            <span
+                              className={`${
+                                task?.status === "Completed" && `completed`
+                              } px-2 py-1 rounded-pill task-card-status me-2`}
+                            >
+                              {task?.status}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              className={`${
+                                task?.priority === "High"
+                                  ? `high`
+                                  : task?.priority === "Medium"
+                                  ? `medium`
+                                  : `low`
+                              } px-2 py-1 rounded-pill task-card-priority me-2`}
+                            >
+                              {task?.priority}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="px-2 py-1 rounded-pill task-card-category">
+                              {task?.category}
+                            </span>
+                          </td>
+                          <td>{task?.date}</td>
+                          <td>{task?.created_at}</td>
+                          <td>{task?.updated_at}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         ) : (

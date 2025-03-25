@@ -21,6 +21,7 @@ const DashboardAnalyticsCard = ({ item }) => {
         </span>
         <div className="d-flex flex-column align-items-start flex-grow-1 ms-2">
           <h1 className="m-0 p-0 mb-2">{item?.count}</h1>
+          <h2 className="m-0 p-0 mb-2">{item?.type}</h2>
           <p className="m-0 p-0">{item?.title}</p>
         </div>
       </div>
