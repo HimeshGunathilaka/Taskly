@@ -42,7 +42,7 @@ function App() {
           });
         setTasks(list);
       }
-      console.log(result?.data);
+      // console.log(result?.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -57,9 +57,14 @@ function App() {
   };
 
   useEffect(() => {
-    setUser(null);
+    // setUser(null);
     setNavigation("/");
     if (localStorage.getItem("user-id")) {
+      setUser({
+        id: localStorage.getItem("user-id"),
+        username: localStorage.getItem("user-name"),
+        role: localStorage.getItem("user-role"),
+      });
       setIsUserLoggedIn(true);
     } else {
       setIsUserLoggedIn(false);

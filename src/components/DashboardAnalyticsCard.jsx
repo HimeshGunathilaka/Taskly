@@ -1,7 +1,7 @@
 const DashboardAnalyticsCard = ({ item }) => {
   return (
     <div className="dashboard-analytics-card col-xl-4 col-lg-4 col-md-6 col-sm-12 px-auto">
-      <div className="dashboard-analytics-card-content d-flex flex-row align-items-start w-100 h-100 p-3">
+      <div className="dashboard-analytics-card-content d-flex flex-row align-items-start w-100 h-100 p-4">
         <span
           className={`dashboard-card-icon d-flex align-items-center justify-content-center ${
             item?.type === "Pending"

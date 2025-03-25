@@ -28,7 +28,7 @@ const months = [
 ];
 
 const Dashboard = () => {
-  const { tasks, refreshTasks } = usePublicContext();
+  const { tasks, refreshTasks, user } = usePublicContext();
   const [pendingTasks, setPendingTasks] = useState([]);
   const [overdueTasks, setOverdueTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
@@ -87,7 +87,8 @@ const Dashboard = () => {
       <div className="dashboard-header d-flex flex-row flex-wrap gap-3 row-gap-4 align-items-center justify-content-between p-3">
         <div className="d-flex flex-column">
           <h1 className="dashboard-title">
-            Welcome {localStorage.getItem("user-name")}!
+            {/* Welcome {localStorage.getItem("user-name")}! */}
+            Welcome {user?.username}!
           </h1>
           <p>
             Today is {weekdays[new Date().getDay()]}, {new Date().getDate()}
@@ -105,10 +106,12 @@ const Dashboard = () => {
           <img src="/images/8104.jpg" className="rounded-circle img-fluid" />
           <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
             <p className="dashboard-user-name">
-              {localStorage.getItem("user-name")}
+              {/* {localStorage.getItem("user-name")} */}
+              {user?.username}
             </p>
             <p className="dashboard-user-position">
-              {localStorage.getItem("user-role")}
+              {/* {localStorage.getItem("user-role")} */}
+              {user?.role}
             </p>
           </div>
         </div>
