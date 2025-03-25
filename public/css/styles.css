@@ -548,6 +548,26 @@ button {
   white-space: nowrap;
 }
 
+.task-overdue-status {
+  display: block;
+  width: fit-content;
+  line-height: 1;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.task-overdue-status.overdue {
+  background-color: var(--bs-red-v2);
+}
+
+.task-overdue-status.active {
+  background-color: var(--bs-green-v2);
+}
+
+.task-overdue-status.expired {
+  background-color: var(--bs-black-v1);
+}
+
 /* Tasks */
 .tasks-container {
   overflow-y: auto;

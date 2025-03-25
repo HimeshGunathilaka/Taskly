@@ -139,7 +139,8 @@ const Dashboard = () => {
                   <thead>
                     <tr>
                       <th>Task</th>
-                      <th>Status</th>
+                      <th>Overdue status</th>
+                      <th>Progress Status</th>
                       <th>Priority</th>
                       <th>Category</th>
                       <th>Date</th>
@@ -152,6 +153,37 @@ const Dashboard = () => {
                       return (
                         <tr key={index}>
                           <td>{task?.title}</td>
+                          <td>
+                            <span
+                              className={`${
+                                task?.status !== "Completed"
+                                  ? isOverdue(
+                                      new Date().getFullYear() +
+                                        "-" +
+                                        new Date().getMonth() +
+                                        "-" +
+                                        new Date().getDate(),
+                                      task?.date
+                                    )
+                                    ? `overdue`
+                                    : `active`
+                                  : `expired`
+                              } px-2 py-1 rounded-pill task-overdue-status me-2`}
+                            >
+                              {task?.status !== "Completed"
+                                ? isOverdue(
+                                    new Date().getFullYear() +
+                                      "-" +
+                                      new Date().getMonth() +
+                                      "-" +
+                                      new Date().getDate(),
+                                    task?.date
+                                  )
+                                  ? "Overdue"
+                                  : "Active"
+                                : "Expired"}
+                            </span>
+                          </td>
                           <td>
                             <span
                               className={`${
