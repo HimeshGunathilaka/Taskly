@@ -35,7 +35,7 @@ const UpdateTask = () => {
           )}
         </Popup>
       )}
-      <div className="task-actions-menu p-2">
+      <div className="task-actions-menu p-2 mb-3">
         <ul className="p-0 m-0">
           <li>
             <button

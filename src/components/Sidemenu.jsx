@@ -21,10 +21,18 @@ const navigations = [
 
 const Sidemenu = () => {
   const [openSidemenu, setOpenSideMenu] = useState(true);
+  const [width, setWidth] = useState(window.innerWidth);
   const { navigation, setNavigation } = usePublicContext();
 
   useEffect(() => {
     setOpenSideMenu(true);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
     <div className={`sidemenu-container ${openSidemenu ? `open` : `close`}`}>
@@ -55,7 +63,10 @@ const Sidemenu = () => {
                       className={`sidemenu-list-btn ${
                         item.path === navigation && `active`
                       }`}
-                      onClick={() => setNavigation(item?.path)}
+                      onClick={() => {
+                        setNavigation(item?.path);
+                        width <= 768 && setOpenSideMenu(false);
+                      }}
                     >
                       {item?.icon}
                       {item?.title}
