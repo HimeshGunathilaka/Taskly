@@ -102,6 +102,7 @@ button {
 .create-task-btn {
   background-color: var(--bs-green-v2);
   color: white;
+  height: 40px;
 
   &:hover {
     background-color: var(--bs-green-v3);
@@ -959,6 +960,10 @@ button {
 
 @media (max-width: 500px) {
   .login-form {
+    width: 90%;
+  }
+
+  .popup-form-container {
     width: 90%;
   }
 }

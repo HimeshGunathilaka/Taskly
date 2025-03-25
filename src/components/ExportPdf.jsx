@@ -20,7 +20,11 @@ const ExportPDF = ({ onClose, task }) => {
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("exported-document.pdf");
+      pdf.save(
+        `${new Date().getFullYear()}-${
+          new Date().getMonth() + 1
+        }-${new Date().getDate()}.pdf`
+      );
     }
     alert(false, "Task exported successfully !");
     setOpenTaskActions(false);
@@ -31,7 +35,7 @@ const ExportPDF = ({ onClose, task }) => {
     <div>
       <div ref={contentRef} className="bg-white export-container p-3">
         <h1 className="text-start m-0">Task Report</h1>
-        <div className="d-flex flex-row align-items-center flex-wrap mb-3 w-100 mt-4">
+        <div className="d-flex flex-row align-items-center flex-wrap mb-3 w-100 mt-4 row-gap-2">
           <span
             className={`${
               task?.priority === "High"
