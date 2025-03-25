@@ -322,11 +322,11 @@ button {
 }
 
 .sidemenu-container.open {
-  animation: 1s ease-in-out forwards openSideMenu;
+  animation: 0.7s ease-in-out forwards openSideMenu;
 }
 
 .sidemenu-container.close {
-  animation: 1s ease-in-out forwards closeSideMenu;
+  animation: 0.7s ease-in-out forwards closeSideMenu;
 }
 
 .side-menu-toggle-btn {
@@ -455,7 +455,7 @@ button {
 .dashboard-analytics-card-content {
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  animation: popup 1s ease-in-out forwards;
+  animation: popup 0.7s ease-in-out forwards;
   transition: 0.3s ease-in-out;
   min-height: 100px;
 }
@@ -499,7 +499,7 @@ button {
 }
 
 .dashboard-table-card-wrapper {
-  animation: popup 1s ease-in-out forwards;
+  animation: popup 0.7s ease-in-out forwards;
 }
 
 .dashboard-table-header {
@@ -608,7 +608,7 @@ button {
 .task-card-content {
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  animation: popup 1s ease-in-out forwards;
+  animation: popup 0.7s ease-in-out forwards;
   transition: 0.3s ease-in-out;
 }
 
@@ -908,7 +908,7 @@ button {
 @keyframes popup {
   0% {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0.5);
   }
   100% {
     transform: scale(1);
@@ -1014,11 +1014,11 @@ button {
   }
 
   .sidemenu-container.open {
-    animation: 1s ease-in-out forwards openLargeSideMenu;
+    animation: 0.7s ease-in-out forwards openLargeSideMenu;
   }
 
   .sidemenu-container.close {
-    animation: 1s ease-in-out forwards closeLargeSideMenu;
+    animation: 0.7s ease-in-out forwards closeLargeSideMenu;
   }
 }
 
