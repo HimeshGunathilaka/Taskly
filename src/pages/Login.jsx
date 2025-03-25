@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import service from "../services/service";
+import { usePublicContext } from "../context/Context";
 
 const loginSchema = Yup.object({
   username: Yup.string().required("Username is required"),
@@ -17,6 +19,8 @@ const signupSchema = Yup.object({
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const { setIsUserLoggedIn, alert, setUser, setNavigation } =
+    usePublicContext();
 
   const initialValues = {
     username: "",
@@ -24,9 +28,49 @@ const Login = () => {
     confirm_password: "",
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log(isLogin ? "Login Data:" : "Sign Up Data:", values);
-    setSubmitting(false);
+  const handleSubmit = async (values, { setSubmitting }) => {
+    let result = {};
+    try {
+      if (isLogin) {
+        result = await service.signIn({
+          username: values.username,
+          password: values.password,
+        });
+
+        if (result.status === 200) {
+          localStorage.setItem("user-id", result.data?.id);
+          localStorage.setItem("user-name", result.data?.username);
+          localStorage.setItem("user-role", result.data?.role);
+          alert(false, result?.message);
+          setIsUserLoggedIn(true);
+          setUser(result?.data);
+          setNavigation("/");
+        } else {
+          alert(true, result?.message);
+        }
+      } else {
+        result = await service.signUp({
+          username: values.username,
+          password: values.password,
+          role: "User",
+        });
+
+        if (result.status === 200) {
+          console.log(result.message);
+          alert(false, result?.message);
+        } else {
+          alert(true, result?.message);
+        }
+      }
+      console.log(result);
+      setSubmitting(false);
+    } catch (error) {
+      alert(true, error.message);
+      localStorage.setItem("user-id", "");
+      localStorage.setItem("user-name", "");
+      localStorage.setItem("user-role", "");
+      console.log(error);
+    }
   };
 
   return (

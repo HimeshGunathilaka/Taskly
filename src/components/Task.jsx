@@ -1,32 +1,43 @@
 import { useEffect, useState } from "react";
 import UpdateTask from "./UpdateTask";
 import { usePublicContext } from "../context/Context";
-
-// const categories = [
-//   { type: "Work", icon: <i class="bi bi-suitcase-lg"></i> },
-//   { type: "Home", icon: <i className="bi bi-house"></i> },
-//   { type: "Finance", icon: <i className="bi bi-bank"></i> },
-//   { type: "Personal", icon: <i className="bi bi-person"></i> },
-//   { type: "Leisure", icon: <i className="bi bi-bicycle"></i> },
-//   { type: "Health", icon: <i className="bi bi-bandaid"></i> },
-// ];
+import service from "../services/service";
 
 const Task = ({ task }) => {
-  const [openTaskActions, setOpenTaskActions] = useState(false);
   const [hover, setHover] = useState(false);
-  const [taskCompleted, setTaskCompleted] = useState(false);
-  const { setSelectedTask } = usePublicContext();
+  const {
+    setSelectedTask,
+    refreshTasks,
+    alert,
+    openTaskActions,
+    setOpenTaskActions,
+    selectedTask,
+  } = usePublicContext();
 
   useEffect(() => {
     setOpenTaskActions(false);
   }, []);
 
-  useEffect(() => {
-    setTaskCompleted(task?.status === "Completed" ? true : false);
-  }, [task]);
+  const changeStatusToCompleted = async (id) => {
+    try {
+      const result = await service.updateTaskStatusToCompleted(id);
+
+      if (result.status === 200) {
+        console.log(result.message);
+        alert(false, result?.message);
+      } else {
+        alert(true, result?.message);
+      }
+    } catch (error) {
+      alert(true, error.message);
+      console.log(error);
+    } finally {
+      refreshTasks();
+    }
+  };
   return (
     <div className="task-card col-xl-4 col-lg-4 col-md-6 col-sm-12">
-      {openTaskActions && <UpdateTask />}
+      {openTaskActions && selectedTask?.id === task?.id && <UpdateTask />}
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
@@ -42,13 +53,6 @@ const Task = ({ task }) => {
       >
         <div className="w-100 d-flex flex-column">
           <div className="w-100 d-flex flex-row justify-content-between">
-            {/* <span className="task-card-category-icon mb-3 d-flex justify-content-center align-items-center">
-              {categories
-                ?.filter((category) => category.type === task?.category)
-                .map((category) => {
-                  return category.icon;
-                })}
-            </span> */}
             <div className="d-flex flex-row align-items-center flex-wrap mb-3 task-card-details">
               <span
                 className={`${
@@ -63,12 +67,10 @@ const Task = ({ task }) => {
               </span>
               <span
                 className={`${
-                  taskCompleted
-                    ? `completed`
-                    : task?.status === "Completed" && `completed`
+                  task?.status === "Completed" && `completed`
                 } px-2 py-1 rounded-pill task-card-status me-2`}
               >
-                {taskCompleted ? "Completed" : task?.status}
+                {task?.status}
               </span>
               <span className="px-2 py-1 rounded-pill task-card-category">
                 {task?.category}
@@ -79,8 +81,10 @@ const Task = ({ task }) => {
                 <input
                   id="cbx-12"
                   type="checkbox"
-                  checked={taskCompleted}
-                  onClick={() => setTaskCompleted(!taskCompleted)}
+                  checked={task?.status === "Completed" ? true : false}
+                  onClick={() => {
+                    changeStatusToCompleted(task?.id);
+                  }}
                 />
                 <label for="cbx-12"></label>
                 <svg width="15" height="14" viewbox="0 0 15 14" fill="none">
@@ -110,9 +114,7 @@ const Task = ({ task }) => {
 
           <p
             className={`task-card-title ${
-              taskCompleted
-                ? `completed`
-                : task?.status === "Completed" && `completed`
+              task?.status === "Completed" && `completed`
             }`}
           >
             {task?.title}

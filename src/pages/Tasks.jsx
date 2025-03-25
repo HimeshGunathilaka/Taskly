@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react";
 import Task from "../components/Task";
 import { usePublicContext } from "../context/Context";
-import Loading from "../components/Loading";
+import Loading from "../components/Empty";
 import Popup from "../components/Popup";
 import UpdateTaskForm from "../components/UpdateTaskForm";
 import CreateTaskForm from "../components/CreateTaskForm";
 
 const Tasks = () => {
-  const { keyword, setKeyword, list } = usePublicContext();
+  const {
+    keyword,
+    setKeyword,
+    tasks,
+    openPopup,
+    setOpenPopup,
+    setPopupTitle,
+    popupTitle,
+  } = usePublicContext();
   const [priorityType, setPriorityType] = useState("All");
   const [categoryType, setCategoryType] = useState("All");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [statusType, setStatusType] = useState("All");
-  const [openPopup, setOpenPopup] = useState(false);
 
   useEffect(() => {
-    const filteredByKeyword = list?.filter((task) =>
+    const filteredByKeyword = tasks?.filter((task) =>
       keyword === ""
         ? task
         : task?.title
@@ -37,16 +44,16 @@ const Tasks = () => {
       priorityType === "All" ? task : priorityType === task?.priority
     );
     setFilteredTasks(filteredByAll);
-  }, [priorityType, keyword, categoryType, statusType, list]);
+  }, [priorityType, keyword, categoryType, statusType, tasks]);
 
   return (
     <>
       {openPopup && (
-        <Popup onClose={() => setOpenPopup(false)} title={"Create a new task"}>
+        <Popup onClose={() => setOpenPopup(false)} title={popupTitle}>
           <CreateTaskForm />
         </Popup>
       )}
-      <div className="container-fluid tasks-container w-100 h-100 p-0">
+      <div className="container-fluid tasks-container w-100 h-100 p-0 d-flex flex-column">
         <div className="w-100 p-3 d-flex flex-row tasks-header row-gap-2 mb-3 justify-content-between flex-wrap">
           <div className="d-flex flex-row search-bar-holder align-items-center px-2 position-relative gap-3">
             <i className="bi bi-search search-icon me-2"></i>
@@ -93,21 +100,22 @@ const Tasks = () => {
               className="px-3 normal-btn create-task-btn"
               onClick={() => {
                 setOpenPopup(true);
+                setPopupTitle("Create a new task");
               }}
             >
               Create
             </button>
           </span>
         </div>
-        <div className="tasks-wrapper row row-gap-4 m-0 p-0 pb-3">
-          {filteredTasks?.length ? (
-            filteredTasks?.map((task, index) => {
+        {filteredTasks?.length ? (
+          <div className="tasks-wrapper row row-gap-4 m-0 p-0 pb-3">
+            {filteredTasks?.map((task, index) => {
               return <Task key={index} task={task} />;
-            })
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
+            })}
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import Lottie from "lottie-react";
 import animationData from "../animations/empty.json";
 
-const Loading = () => {
+const Empty = () => {
   const memoizedAnimation = useMemo(() => animationData, []);
 
   return (
@@ -19,4 +19,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default Empty;

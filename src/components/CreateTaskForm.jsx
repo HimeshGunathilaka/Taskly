@@ -1,5 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import service from "../services/service";
+import { usePublicContext } from "../context/Context";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("* Title is required"),
@@ -16,10 +18,34 @@ const validationSchema = Yup.object({
 });
 
 const CreateTaskForm = () => {
-  const handleSubmit = (values, setSubmitting) => {
-    console.log("Form submitted with values:", values);
-    // resetForm();
-    setSubmitting(false);
+  const { alert, refreshTasks, setOpenPopup } = usePublicContext();
+
+  const handleSubmit = async (values, setSubmitting, resetForm) => {
+    try {
+      const result = await service.createTask({
+        user_id: localStorage.getItem("user-id"),
+        title: values.title,
+        category: values.category,
+        status: values.status,
+        priority: values.priority,
+        date: values.date,
+      });
+
+      if (result.status === 200) {
+        console.log(result.message);
+        alert(false, result?.message);
+      } else {
+        alert(true, result?.message);
+      }
+    } catch (error) {
+      alert(true, error.message);
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+      refreshTasks();
+      resetForm();
+      setOpenPopup(false);
+    }
   };
   return (
     <Formik
@@ -31,8 +57,8 @@ const CreateTaskForm = () => {
         date: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        handleSubmit(values, setSubmitting);
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        handleSubmit(values, setSubmitting, resetForm);
       }}
     >
       {({ isSubmitting }) => (
@@ -120,7 +146,7 @@ const CreateTaskForm = () => {
 
           <button
             type="submit"
-            className="submit-btn mt-3 py-3"
+            className="submit-btn mt-3 py-2"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Please wait..." : "Submit"}
