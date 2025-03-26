@@ -14,6 +14,7 @@ body {
   --bs-grey-v4: rgba(0, 0, 0, 0.1);
   --bs-grey-v5: rgba(0, 0, 0, 0.4);
   --bs-grey-v6: #c5d3e8;
+  --bs-grey-v7: rgba(0, 0, 0, 0.065);
   --bs-black-v1: #212121;
   --bs-red-v1: rgb(255, 41, 41, 0.05);
   --bs-red-v2: #ff2929;
@@ -647,6 +648,14 @@ button {
   color: var(--bs-grey-v5);
 }
 
+.task-card-status-overdue.overdue {
+  color: var(--bs-red-v2);
+}
+
+.task-card-status-overdue span.overdue {
+  color: var(--bs-red-v2);
+}
+
 .task-card-content {
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -664,6 +673,10 @@ button {
 
 .task-card-content.low {
   background-color: var(--bs-green-v1);
+}
+
+.task-card-content.completed {
+  background-color: var(--bs-grey-v7);
 }
 
 .task-card-category-icon {

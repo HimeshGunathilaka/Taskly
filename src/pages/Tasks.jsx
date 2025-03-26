@@ -76,7 +76,35 @@ const Tasks = () => {
     const filteredByAll = filteredByDueType.filter((task) =>
       priorityType === "All" ? task : priorityType === task?.priority
     );
-    setFilteredTasks(filteredByAll);
+
+    // Sorting logic
+    const priorityOrder = { High: 1, Medium: 2, Low: 3 };
+    const statusOrder = { Pending: 1, Overdue: 2, Completed: 3 };
+
+    const sortedTasks = [...filteredByAll].sort((a, b) => {
+      // Completed tasks should always be last
+      if (a.status === "Completed" && b.status !== "Completed") return 1;
+      if (b.status === "Completed" && a.status !== "Completed") return -1;
+
+      // Due Today should come first
+      const isADueToday = a.date === currentDate;
+      const isBDueToday = b.date === currentDate;
+
+      if (isADueToday && !isBDueToday) return -1;
+      if (!isADueToday && isBDueToday) return 1;
+
+      // Sort by priority
+      const priorityA = priorityOrder[a.priority] || 4;
+      const priorityB = priorityOrder[b.priority] || 4;
+      if (priorityA !== priorityB) return priorityA - priorityB;
+
+      // Then sort by status
+      const statusA = statusOrder[a.status] || 4;
+      const statusB = statusOrder[b.status] || 4;
+      return statusA - statusB;
+    });
+
+    setFilteredTasks(sortedTasks);
   }, [
     priorityType,
     keyword,

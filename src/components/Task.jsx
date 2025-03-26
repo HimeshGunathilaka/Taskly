@@ -68,13 +68,26 @@ const Task = ({ task }) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={`task-card-content d-flex flex-column w-100 h-100 p-3 justify-content-between ${
-          hover && task?.priority === "High"
+          hover &&
+          task?.status !== "Completed" &&
+          !isOverdue(currentDate, task?.date) &&
+          task?.priority === "High"
             ? `high`
-            : hover && task?.priority === "Medium"
+            : hover &&
+              task?.status !== "Completed" &&
+              !isOverdue(currentDate, task?.date) &&
+              task?.priority === "Medium"
             ? `medium`
-            : hover && task?.priority === "Low"
+            : hover &&
+              task?.status !== "Completed" &&
+              !isOverdue(currentDate, task?.date) &&
+              task?.priority === "Low"
             ? `low`
             : ``
+        } ${
+          task?.status === "Completed"
+            ? `completed`
+            : isOverdue(currentDate, task?.date) && `high`
         }`}
       >
         <div className="w-100 d-flex flex-column flex-grow-1">
@@ -148,10 +161,18 @@ const Task = ({ task }) => {
           <p className="task-card-date p-0 m-0 mt-auto">- {task?.date}</p>
         </div>
         <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2">
-          <p className="p-0 m-0 task-card-status-overdue">
+          <p
+            className={`p-0 m-0 task-card-status-overdue ${
+              isOverdue(currentDate, task?.date) && `overdue`
+            }`}
+          >
             {task?.status !== "Completed" && (
               <>
-                <span className="me-2">
+                <span
+                  className={`me-2 ${
+                    isOverdue(currentDate, task?.date) && `overdue`
+                  }`}
+                >
                   <i className="bi bi-clock-history"></i>
                 </span>
                 {isOverdue(currentDate, task?.date)
