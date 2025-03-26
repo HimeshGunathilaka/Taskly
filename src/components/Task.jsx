@@ -13,6 +13,12 @@ const Task = ({ task }) => {
     setOpenTaskActions,
     selectedTask,
   } = usePublicContext();
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
 
   useEffect(() => {
     setOpenTaskActions(false);
@@ -143,21 +149,18 @@ const Task = ({ task }) => {
         </div>
         <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2">
           <p className="p-0 m-0 task-card-status-overdue">
-            <span className="me-2">
-              <i className="bi bi-clock-history"></i>
-            </span>
-            {task?.status !== "Completed"
-              ? isOverdue(
-                  new Date().getFullYear() +
-                    "-" +
-                    new Date().getMonth() +
-                    "-" +
-                    new Date().getDate(),
-                  task?.date
-                )
-                ? "Overdue"
-                : "Active"
-              : "Expired"}
+            {task?.status !== "Completed" && (
+              <>
+                <span className="me-2">
+                  <i className="bi bi-clock-history"></i>
+                </span>
+                {isOverdue(currentDate, task?.date)
+                  ? "Overdue"
+                  : task?.date === currentDate
+                  ? "Due today"
+                  : "Pending"}
+              </>
+            )}
           </p>
           <button
             className="task-actions-btn rounded-2 ms-auto"

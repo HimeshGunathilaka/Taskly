@@ -32,6 +32,12 @@ const Dashboard = () => {
   const [pendingTasks, setPendingTasks] = useState([]);
   const [overdueTasks, setOverdueTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
 
   useEffect(() => {
     refreshTasks();
@@ -67,14 +73,7 @@ const Dashboard = () => {
     setOverdueTasks(
       tasks?.filter(
         (task) =>
-          isOverdue(
-            new Date().getFullYear() +
-              "-" +
-              new Date().getMonth() +
-              "-" +
-              new Date().getDate(),
-            task?.date
-          ) && task?.status !== "Completed"
+          isOverdue(currentDate, task?.date) && task?.status !== "Completed"
       )
     );
   }, [tasks]);
@@ -96,7 +95,7 @@ const Dashboard = () => {
             {months[new Date().getMonth()]} {new Date().getFullYear()}
           </p>
         </div>
-        <div className="d-flex flex-row dashboard-user-container">
+        <div className="flex-row dashboard-user-container">
           <img
             src="/images/8104.webp"
             className="rounded-circle img-fluid"
@@ -133,7 +132,7 @@ const Dashboard = () => {
             }}
           />
         </div>
-        {tasks?.length > 0 ? (
+        {/* {tasks?.length > 0 ? (
           <div className="p-3 d-flex flex-column w-100 dashboard-table-card-wrapper">
             <h1 className="mt-3 dashboard-table-header mb-3">
               Available tasks
@@ -149,8 +148,6 @@ const Dashboard = () => {
                       <th>Priority</th>
                       <th>Category</th>
                       <th>Date</th>
-                      <th>Created on</th>
-                      <th>Updated on</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -217,8 +214,6 @@ const Dashboard = () => {
                             </span>
                           </td>
                           <td>{task?.date}</td>
-                          <td>{task?.created_at}</td>
-                          <td>{task?.updated_at}</td>
                         </tr>
                       );
                     })}
@@ -229,7 +224,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <></>
-        )}
+        )} */}
       </div>
     </div>
   );

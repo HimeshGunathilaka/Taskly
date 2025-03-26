@@ -434,6 +434,10 @@ button {
   height: 40px;
 }
 
+.dashboard-user-container {
+  display: flex;
+}
+
 .dashboard-user-name,
 .dashboard-user-position {
   font-size: 1rem;
@@ -1067,6 +1071,10 @@ button {
 
   .popup-form-container {
     width: 90%;
+  }
+
+  .dashboard-user-container {
+    display: none;
   }
 }
 

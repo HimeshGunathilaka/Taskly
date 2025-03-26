@@ -17,8 +17,33 @@ const Tasks = () => {
   } = usePublicContext();
   const [priorityType, setPriorityType] = useState("All");
   const [categoryType, setCategoryType] = useState("All");
+  const [dueType, setDueType] = useState("All");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [statusType, setStatusType] = useState("All");
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
+
+  const isOverdue = (currentDate, statedDate) => {
+    const formatDate = (dateStr) => {
+      const [day, month, year] = dateStr.split("-").map(Number);
+      return new Date(year, month - 1, day).getTime();
+    };
+
+    let date1 = formatDate(currentDate);
+    let date2 = formatDate(statedDate);
+
+    if (date1 < date2) {
+      return false;
+    } else if (date1 > date2) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   useEffect(() => {
     const filteredByKeyword = tasks?.filter((task) =>
@@ -30,20 +55,37 @@ const Tasks = () => {
             .includes(keyword?.toString().toLowerCase())
     );
 
-    const filteredByCategoryAndKeyword = filteredByKeyword.filter((task) =>
+    const filteredByCategory = filteredByKeyword.filter((task) =>
       categoryType === "All" ? task : task?.category === categoryType
     );
 
-    const filteredByCategoryAndKeywordAndStatus =
-      filteredByCategoryAndKeyword.filter((task) =>
-        statusType === "All" ? task : task?.status === statusType
-      );
+    const filteredByStatus = filteredByCategory.filter((task) =>
+      statusType === "All" ? task : task?.status === statusType
+    );
 
-    const filteredByAll = filteredByCategoryAndKeywordAndStatus.filter((task) =>
+    const filteredByDueType = filteredByStatus.filter((task) =>
+      dueType === "All"
+        ? task
+        : dueType === "Overdue"
+        ? isOverdue(currentDate, task?.date)
+        : dueType === "Due_Today"
+        ? task?.date === currentDate
+        : !isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+    );
+
+    const filteredByAll = filteredByDueType.filter((task) =>
       priorityType === "All" ? task : priorityType === task?.priority
     );
     setFilteredTasks(filteredByAll);
-  }, [priorityType, keyword, categoryType, statusType, tasks]);
+  }, [
+    priorityType,
+    keyword,
+    categoryType,
+    statusType,
+    tasks,
+    dueType,
+    currentDate,
+  ]);
 
   return (
     <>
@@ -65,6 +107,15 @@ const Tasks = () => {
             />
           </div>
           <span className="d-flex flex-row flex-wrap gap-2 row-gap-2">
+            <select
+              onChange={(e) => setDueType(e.target.value)}
+              className="task-status-filter px-2"
+            >
+              <option value="All">All</option>
+              <option value="Overdue">Overdue</option>
+              <option value="Due_Today">Due Today</option>
+              <option value="Pending">Pending</option>
+            </select>
             <select
               onChange={(e) => setStatusType(e.target.value)}
               className="task-status-filter px-2"
