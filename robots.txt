@@ -1,0 +1,11 @@
+# Allow all bots to access all content
+User-agent: *
+
+# Specific rules for Googlebot (Google's web crawler)
+User-agent: Googlebot
+
+# Specific rules for Bingbot (Bing's web crawler)
+User-agent: Bingbot
+
+# Sitemap location (helps bots discover all pages easily)
+Sitemap: http://localhost:5173/sitemap.xml

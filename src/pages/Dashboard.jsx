@@ -98,7 +98,7 @@ const Dashboard = () => {
         </div>
         <div className="d-flex flex-row dashboard-user-container">
           <img
-            src="/images/8104.jpg"
+            src="/images/8104.webp"
             className="rounded-circle img-fluid"
             alt="user-avatar"
             loading="lazy"
