@@ -48,7 +48,7 @@ const Sidemenu = () => {
         <div className="sidemenu-wrapper h-100 w-100 d-flex flex-column">
           <div className="d-flex flex-row align-items-center justify-content-start w-100 mb-3">
             <img
-              src="/images/check.png"
+              src="/images/check.webp"
               className="brand-logo"
               alt="brand-logo"
               loading="lazy"
