@@ -5,8 +5,6 @@ body {
   max-height: 100vh;
 
   --bs-font-poppins: "Poppins", sans-serif;
-  --bs-font-dm-sans: "DM Sans", sans-serif;
-  --bs-font-jost: "Jost", sans-serif;
 
   --bs-blue-v1: #37afe1;
   --bs-blue-v2: #205781;
@@ -1073,6 +1071,10 @@ button {
 
 @media (max-width: 400px) {
   .sidemenu-container-wrapper {
+    width: 100%;
+  }
+
+  .export-btn {
     width: 100%;
   }
 }

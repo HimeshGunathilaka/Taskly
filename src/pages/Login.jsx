@@ -85,6 +85,7 @@ const Login = () => {
               src="/images/check.png"
               className="brand-logo"
               alt="brand-logo"
+              loading="lazy"
             />
             <h1 className="brand-name ms-2">Taskly</h1>
           </div>
@@ -191,11 +192,11 @@ const Login = () => {
               <h1>300+</h1>
               <p className="mt-1">World wide users.</p>
               <span className="d-flex flex-row align-items-center w-100 mt-2">
-                <img src="/images/8104.jpg" alt="user1" />
-                <img src="/images/2148375505.jpg" alt="user2" />
-                <img src="/images/6384-copy.jpg" alt="user3" />
-                <img src="/images/255.jpg" alt="user4" />
-                <img src="/images/2148648911.jpg" alt="user5" />
+                <img src="/images/8104.jpg" alt="user1" loading="lazy" />
+                <img src="/images/2148375505.jpg" alt="user2" loading="lazy" />
+                <img src="/images/6384-copy.jpg" alt="user3" loading="lazy" />
+                <img src="/images/255.jpg" alt="user4" loading="lazy" />
+                <img src="/images/2148648911.jpg" alt="user5" loading="lazy" />
               </span>
             </div>
           </div>

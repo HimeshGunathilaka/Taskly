@@ -51,6 +51,7 @@ const Sidemenu = () => {
               src="/images/check.png"
               className="brand-logo"
               alt="brand-logo"
+              loading="lazy"
             />
             <h1 className="brand-name ms-2">Taskly</h1>
           </div>

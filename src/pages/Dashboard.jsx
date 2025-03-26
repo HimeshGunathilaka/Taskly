@@ -97,7 +97,12 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="d-flex flex-row dashboard-user-container">
-          <img src="/images/8104.jpg" className="rounded-circle img-fluid" />
+          <img
+            src="/images/8104.jpg"
+            className="rounded-circle img-fluid"
+            alt="user-avatar"
+            loading="lazy"
+          />
           <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
             <p className="dashboard-user-name">{user?.username}</p>
             <p className="dashboard-user-position">{user?.role}</p>
