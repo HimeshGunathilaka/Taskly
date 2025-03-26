@@ -18,13 +18,16 @@ const DeleteTaskPopup = ({ onClose }) => {
       const result = await service.deleteTask(selectedTask?.id);
 
       if (result.status === 200) {
-        console.log(result.message);
         alert(false, result?.message);
       } else {
         alert(true, result?.message);
       }
     } catch (error) {
-      alert(true, error.message);
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
+      console.log(error.message);
     } finally {
       setIsLoading(false);
       onClose();

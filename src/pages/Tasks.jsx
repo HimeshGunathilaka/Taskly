@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Task from "../components/Task";
 import { usePublicContext } from "../context/Context";
-import Loading from "../components/Empty";
+import Loading from "../components/Loading";
 import Popup from "../components/Popup";
-import UpdateTaskForm from "../components/UpdateTaskForm";
 import CreateTaskForm from "../components/CreateTaskForm";
 
 const Tasks = () => {

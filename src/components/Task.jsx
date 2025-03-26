@@ -18,18 +18,38 @@ const Task = ({ task }) => {
     setOpenTaskActions(false);
   }, []);
 
+  const isOverdue = (currentDate, statedDate) => {
+    const formatDate = (dateStr) => {
+      const [day, month, year] = dateStr.split("-").map(Number);
+      return new Date(year, month - 1, day).getTime();
+    };
+
+    let date1 = formatDate(currentDate);
+    let date2 = formatDate(statedDate);
+
+    if (date1 < date2) {
+      return false;
+    } else if (date1 > date2) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const changeStatusToCompleted = async (id) => {
     try {
       const result = await service.updateTaskStatusToCompleted(id);
 
       if (result.status === 200) {
-        console.log(result.message);
         alert(false, result?.message);
       } else {
         alert(true, result?.message);
       }
     } catch (error) {
-      alert(true, error.message);
+      alert(
+        true,
+        "Sorry, server is busy or not available right now. Please try again later !"
+      );
       console.log(error);
     } finally {
       refreshTasks();
@@ -51,8 +71,8 @@ const Task = ({ task }) => {
             : ``
         }`}
       >
-        <div className="w-100 d-flex flex-column">
-          <div className="w-100 d-flex flex-row justify-content-between">
+        <div className="w-100 d-flex flex-column flex-grow-1">
+          <div className="w-100 d-flex flex-row justify-content-between gap-2">
             <div className="d-flex flex-row align-items-center flex-wrap mb-3 task-card-details">
               <span
                 className={`${
@@ -86,8 +106,8 @@ const Task = ({ task }) => {
                     changeStatusToCompleted(task?.id);
                   }}
                 />
-                <label for="cbx-12"></label>
-                <svg width="15" height="14" viewbox="0 0 15 14" fill="none">
+                <label htmlFor="cbx-12"></label>
+                <svg width="15" height="14" viewBox="0 0 15 14" fill="none">
                   <path d="M2 8.36364L6.23077 12L13 2"></path>
                 </svg>
               </div>
@@ -96,7 +116,7 @@ const Task = ({ task }) => {
                   <filter id="goo-12">
                     <fegaussianblur
                       in="SourceGraphic"
-                      stddeviation="4"
+                      stdDeviation="4"
                       result="blur"
                     ></fegaussianblur>
                     <fecolormatrix
@@ -119,10 +139,26 @@ const Task = ({ task }) => {
           >
             {task?.title}
           </p>
-          <p className="task-card-time mt-2">{task?.time}</p>
+          <p className="task-card-date p-0 m-0 mt-auto">- {task?.date}</p>
         </div>
-        <div className="w-100 d-flex flex-row task-actions-container align-items-end">
-          <p className="p-0 m-0">{task?.date}</p>
+        <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2">
+          <p className="p-0 m-0 task-card-status-overdue">
+            <span className="me-2">
+              <i className="bi bi-clock-history"></i>
+            </span>
+            {task?.status !== "Completed"
+              ? isOverdue(
+                  new Date().getFullYear() +
+                    "-" +
+                    new Date().getMonth() +
+                    "-" +
+                    new Date().getDate(),
+                  task?.date
+                )
+                ? "Overdue"
+                : "Active"
+              : "Expired"}
+          </p>
           <button
             className="task-actions-btn rounded-2 ms-auto"
             onClick={() => {

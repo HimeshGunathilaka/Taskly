@@ -3,7 +3,7 @@ import Popup from "./Popup";
 import UpdateTaskForm from "./UpdateTaskForm";
 import DeleteTaskPopup from "./DeleteTaskPopup";
 import { usePublicContext } from "../context/Context";
-import ExportPDF from "./ExportPdf";
+import ExportFile from "./ExportFile";
 
 const UpdateTask = () => {
   const [openPopup, setOpenPopup] = useState(false);
@@ -28,7 +28,7 @@ const UpdateTask = () => {
           ) : action === "delete" ? (
             <DeleteTaskPopup onClose={() => setOpenPopup(false)} />
           ) : (
-            <ExportPDF
+            <ExportFile
               onClose={() => setOpenPopup(false)}
               task={selectedTask}
             />
@@ -50,7 +50,7 @@ const UpdateTask = () => {
               className="p-0 px-3 m-0 w-100 py-2 d-flex flex-row justify-content-start"
               onClick={() => handleClick("export")}
             >
-              <i className="bi bi-filetype-pdf me-2"></i>Export
+              <i className="bi bi-cloud-arrow-down me-2"></i>Export
             </button>
           </li>
           <li>

@@ -1,11 +1,36 @@
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Papa from "papaparse";
+import { saveAs } from "file-saver";
 import React, { useRef } from "react";
 import { usePublicContext } from "../context/Context";
 
-const ExportPDF = ({ onClose, task }) => {
+const ExportFile = ({ onClose, task }) => {
   const { setOpenTaskActions, alert } = usePublicContext();
   const contentRef = useRef(null);
+
+  const handleExportCsv = () => {
+    const csv = Papa.unparse([
+      {
+        id: task?.id,
+        title: task?.title,
+        priority: task?.priority,
+        category: task?.category,
+        status: task?.status,
+        date: task?.date,
+        created_on: task?.created_at,
+        updated_on: task?.updated_at,
+      },
+    ]);
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    saveAs(
+      blob,
+      `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}.csv`
+    );
+  };
 
   const handleExportPDF = async () => {
     if (contentRef.current) {
@@ -68,14 +93,16 @@ const ExportPDF = ({ onClose, task }) => {
         <p className="export-task-date text-start mt-2">{task?.date}</p>
       </div>
 
-      <button
-        onClick={handleExportPDF}
-        className="mt-3 mx-2 px-3 py-1 export-btn"
-      >
-        Export as PDF
-      </button>
+      <div className="mt-2 w-100 d-flex flex-row flex-wrap row-gap-3 gap-3">
+        <button onClick={handleExportPDF} className="px-3 py-1 export-btn">
+          Export as PDF
+        </button>
+        <button onClick={handleExportCsv} className="px-3 py-1 export-btn">
+          Export as CSV
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ExportPDF;
+export default ExportFile;
