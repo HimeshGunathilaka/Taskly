@@ -60,7 +60,6 @@ function App() {
   };
 
   useEffect(() => {
-    // setUser(null);
     setNavigation("/");
     if (localStorage.getItem("user-id")) {
       setUser({
