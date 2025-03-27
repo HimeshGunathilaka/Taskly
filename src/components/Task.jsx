@@ -5,6 +5,11 @@ import service from "../services/service";
 
 const Task = ({ task }) => {
   const [hover, setHover] = useState(false);
+  const [remainingDays, setRemainingDays] = useState({
+    years: 0,
+    months: 0,
+    days: 0,
+  });
   const {
     setSelectedTask,
     refreshTasks,
@@ -26,20 +31,40 @@ const Task = ({ task }) => {
 
   const isOverdue = (currentDate, statedDate) => {
     const formatDate = (dateStr) => {
-      const [day, month, year] = dateStr.split("-").map(Number);
+      const [year, month, day] = dateStr.split("-").map(Number);
       return new Date(year, month - 1, day).getTime();
     };
 
-    let date1 = formatDate(currentDate);
-    let date2 = formatDate(statedDate);
+    const current = formatDate(currentDate);
+    const stated = formatDate(statedDate);
 
-    if (date1 < date2) {
-      return false;
-    } else if (date1 > date2) {
-      return true;
-    } else {
-      return false;
+    return current > stated;
+  };
+
+  const getTimeRemaining = (currentDate, dueDate) => {
+    const current = new Date(currentDate);
+    const due = new Date(dueDate);
+
+    if (current >= due) {
+      return { years: 0, months: 0, days: 0 };
     }
+
+    let years = due.getFullYear() - current.getFullYear();
+    let months = due.getMonth() - current.getMonth();
+    let days = due.getDate() - current.getDate();
+
+    if (days < 0) {
+      months--;
+      const tempDate = new Date(due.getFullYear(), due.getMonth(), 0);
+      days += tempDate.getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    return { years: years, months: months, days: days };
   };
 
   const changeStatusToCompleted = async (id) => {
@@ -61,6 +86,10 @@ const Task = ({ task }) => {
       refreshTasks();
     }
   };
+
+  useEffect(() => {
+    setRemainingDays(getTimeRemaining(currentDate, task?.date));
+  }, [task, currentDate]);
   return (
     <div className="task-card col-xl-4 col-lg-4 col-md-6 col-sm-12">
       {openTaskActions && selectedTask?.id === task?.id && <UpdateTask />}
@@ -160,9 +189,9 @@ const Task = ({ task }) => {
           </p>
           <p className="task-card-date p-0 m-0 mt-auto">- {task?.date}</p>
         </div>
-        <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2">
-          <p
-            className={`p-0 m-0 task-card-status-overdue ${
+        <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2 gap-3">
+          <div
+            className={`p-0 m-0 task-card-status-overdue d-flex flex-row ${
               isOverdue(currentDate, task?.date) && `overdue`
             }`}
           >
@@ -179,10 +208,25 @@ const Task = ({ task }) => {
                   ? "Overdue"
                   : task?.date === currentDate
                   ? "Due today"
-                  : "Pending"}
+                  : `${`${
+                      remainingDays?.years > 0
+                        ? `${remainingDays?.years} years${
+                            remainingDays?.months > 0 && `,`
+                          }`
+                        : ``
+                    }
+                            ${
+                              remainingDays?.months > 0
+                                ? `${remainingDays?.months} months${
+                                    remainingDays?.days > 0 && ` and`
+                                  } `
+                                : ``
+                            }
+                          
+                         ${remainingDays?.days} days`} remaining`}
               </>
             )}
-          </p>
+          </div>
           <button
             className="task-actions-btn rounded-2 ms-auto"
             onClick={() => {

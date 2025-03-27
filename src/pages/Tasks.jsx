@@ -29,20 +29,14 @@ const Tasks = () => {
 
   const isOverdue = (currentDate, statedDate) => {
     const formatDate = (dateStr) => {
-      const [day, month, year] = dateStr.split("-").map(Number);
+      const [year, month, day] = dateStr.split("-").map(Number);
       return new Date(year, month - 1, day).getTime();
     };
 
-    let date1 = formatDate(currentDate);
-    let date2 = formatDate(statedDate);
+    const current = formatDate(currentDate);
+    const stated = formatDate(statedDate);
 
-    if (date1 < date2) {
-      return false;
-    } else if (date1 > date2) {
-      return true;
-    } else {
-      return false;
-    }
+    return current > stated;
   };
 
   useEffect(() => {
@@ -124,7 +118,7 @@ const Tasks = () => {
       )}
       <div className="container-fluid tasks-container w-100 h-100 p-0 d-flex flex-column">
         <div className="w-100 p-3 d-flex flex-row tasks-header row-gap-2 mb-3 justify-content-between flex-wrap">
-          <div className="d-flex flex-row search-bar-holder align-items-center px-2 position-relative gap-3">
+          <div className="d-flex flex-row search-bar-holder align-items-center px-2 position-relative">
             <i className="bi bi-search search-icon me-2"></i>
             <input
               type="text"
