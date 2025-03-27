@@ -9,7 +9,7 @@ const navigations = [
   },
   {
     icon: <i className="bi bi-list-task icon me-3"></i>,
-    title: "To do list",
+    title: "My Tasks",
     path: "/to-do",
   },
   {

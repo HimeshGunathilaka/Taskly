@@ -1,10 +1,10 @@
 const DashboardAnalyticsCard = ({ item }) => {
   return (
-    <div className="dashboard-analytics-card col-xl-4 col-lg-4 col-md-6 col-sm-12 px-auto">
-      <div className="dashboard-analytics-card-content d-flex flex-column align-items-start w-100 h-100 p-4">
+    <div className="dashboard-analytics-card">
+      <div className="dashboard-analytics-card-content rounded-pill d-flex flex-column align-items-start w-100 h-100 p-2">
         <div className="w-100 d-flex flex-row align-items-center">
           <span
-            className={`dashboard-card-icon d-flex align-items-center justify-content-center ${
+            className={`m-0 dashboard-card-icon rounded-circle d-flex align-items-center justify-content-center ${
               item?.type === "Pending"
                 ? `pending`
                 : item?.type === "Completed"
@@ -13,18 +13,17 @@ const DashboardAnalyticsCard = ({ item }) => {
             }`}
           >
             {item?.type === "Pending" ? (
-              <i className="bi bi-hourglass-split"></i>
+              <i className="bi bi-clock-history"></i>
             ) : item?.type === "Completed" ? (
-              <i className="bi bi-hourglass-bottom"></i>
+              <i className="bi bi-check-lg"></i>
             ) : (
-              <i className="bi bi-alarm"></i>
+              <i className="bi bi-x-lg"></i>
             )}
           </span>
-          <h1 className="m-0 p-0 ms-2">{item?.count}</h1>
-        </div>
-        <div className="d-flex flex-column align-items-start flex-grow-1 mt-2">
-          <h2 className="m-0 p-0 mb-2">{item?.type}</h2>
-          <p className="m-0 p-0">{item?.title}</p>
+          <div className="d-flex flex-column align-items-start flex-grow-1 ms-2 me-2">
+            <h1 className="m-0 p-0">{item?.count}</h1>
+            <h2 className="m-0 p-0">{item?.type} tasks</h2>
+          </div>
         </div>
       </div>
     </div>
