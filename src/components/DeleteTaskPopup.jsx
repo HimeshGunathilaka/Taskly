@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { usePublicContext } from "../context/Context";
 import service from "../services/service";
+import deleteSound from "../audio/trashed.mp3";
+import useSound from "use-sound";
 
 const DeleteTaskPopup = ({ onClose }) => {
+  const [deleted] = useSound(deleteSound);
   const {
     setPopupTitle,
     selectedTask,
@@ -18,14 +21,16 @@ const DeleteTaskPopup = ({ onClose }) => {
       const result = await service.deleteTask(selectedTask?.id);
 
       if (result.status === 200) {
-        alert(false, result?.message);
+        deleted();
+        alert(false, result?.message, false);
       } else {
-        alert(true, result?.message);
+        alert(true, result?.message, true);
       }
     } catch (error) {
       alert(
         true,
-        "Sorry, server is busy or not available right now. Please try again later !"
+        "Sorry, server is busy or not available right now. Please try again later !",
+        true
       );
       console.log(error.message);
     } finally {

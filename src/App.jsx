@@ -9,6 +9,9 @@ import Body from "./components/Body";
 import Login from "./pages/Login";
 import toast, { Toaster } from "react-hot-toast";
 import service from "./services/service";
+import useSound from "use-sound";
+import successSound from "./audio/success.mp3";
+import failSound from "./audio/fail.mp3";
 
 function App() {
   const [openTaskActions, setOpenTaskActions] = useState(false);
@@ -21,9 +24,12 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [popupTitle, setPopupTitle] = useState("");
+  const [success] = useSound(successSound);
+  const [fail] = useSound(failSound);
 
   const fetchTasks = async () => {
     try {
+      console.log(parseInt(localStorage.getItem("user-id"), 10));
       const result = await service.getTasks();
       if (result?.status === 200) {
         const userId = parseInt(localStorage.getItem("user-id"), 10);
@@ -32,6 +38,7 @@ function App() {
           setTasks([]);
           return;
         }
+
         const list = result?.data
           .filter((task) => task?.user_id === userId)
           .map((task) => {
@@ -73,10 +80,16 @@ function App() {
     }
   }, []);
 
-  const alert = (error, message) => {
+  const alert = (error, message, sound) => {
     if (error) {
+      if (sound) {
+        fail();
+      }
       toast.error(message);
     } else {
+      if (sound) {
+        success();
+      }
       toast.success(message);
     }
   };

@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import UpdateTask from "./UpdateTask";
 import { usePublicContext } from "../context/Context";
 import service from "../services/service";
+import useSound from "use-sound";
+import successSound from "../audio/yay-6120.mp3";
 
 const Task = ({ task }) => {
   const [hover, setHover] = useState(false);
+  const [completed] = useSound(successSound);
   const [remainingDays, setRemainingDays] = useState({
     years: 0,
     months: 0,
@@ -72,14 +75,16 @@ const Task = ({ task }) => {
       const result = await service.updateTaskStatusToCompleted(id);
 
       if (result.status === 200) {
-        alert(false, result?.message);
+        completed();
+        alert(false, result?.message, false);
       } else {
-        alert(true, result?.message);
+        alert(true, result?.message, true);
       }
     } catch (error) {
       alert(
         true,
-        "Sorry, server is busy or not available right now. Please try again later !"
+        "Sorry, server is busy or not available right now. Please try again later !",
+        true
       );
       console.log(error);
     } finally {

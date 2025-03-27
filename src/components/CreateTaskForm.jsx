@@ -32,14 +32,15 @@ const CreateTaskForm = () => {
       });
 
       if (result.status === 200) {
-        alert(false, result?.message);
+        alert(false, result?.message, true);
       } else {
-        alert(true, result?.message);
+        alert(true, result?.message, true);
       }
     } catch (error) {
       alert(
         true,
-        "Sorry, server is busy or not available right now. Please try again later !"
+        "Sorry, server is busy or not available right now. Please try again later !",
+        true
       );
       console.log(error.message);
     } finally {

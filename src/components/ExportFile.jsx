@@ -51,7 +51,7 @@ const ExportFile = ({ onClose, task }) => {
         }-${new Date().getDate()}.pdf`
       );
     }
-    alert(false, "Task exported successfully !");
+    alert(false, "Task exported successfully !", true);
     setOpenTaskActions(false);
     onClose();
   };
