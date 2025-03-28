@@ -117,7 +117,7 @@ const Tasks = () => {
         </Popup>
       )}
       <div className="container-fluid tasks-container w-100 h-100 p-0 d-flex flex-column">
-        <div className="w-100 p-3 d-flex flex-row tasks-header row-gap-2 mb-3 justify-content-between flex-wrap">
+        <div className="w-100 p-3 d-flex flex-row tasks-header row-gap-2 mb-3 justify-content-between flex-wrap gap-2">
           <div className="d-flex flex-row search-bar-holder align-items-center px-2 position-relative">
             <i className="bi bi-search search-icon me-2"></i>
             <input
@@ -128,10 +128,10 @@ const Tasks = () => {
               onChange={(e) => setKeyword(e.target.value)}
             />
           </div>
-          <span className="d-flex flex-row flex-wrap gap-2 row-gap-2">
+          <span className="d-flex flex-row flex-wrap gap-2 row-gap-2 flex-grow-1 tasks-fliters-container justify-content-end">
             <select
               onChange={(e) => setDueType(e.target.value)}
-              className="task-status-filter px-2"
+              className="task-status-filter px-2 flex-grow-1"
             >
               <option value="All">All</option>
               <option value="Overdue">Overdue</option>
@@ -140,7 +140,7 @@ const Tasks = () => {
             </select>
             <select
               onChange={(e) => setStatusType(e.target.value)}
-              className="task-status-filter px-2"
+              className="task-status-filter px-2 flex-grow-1"
             >
               <option value="All">All</option>
               <option value="To do">To do</option>
@@ -149,7 +149,7 @@ const Tasks = () => {
             </select>
             <select
               onChange={(e) => setCategoryType(e.target.value)}
-              className="task-category-filter px-2"
+              className="task-category-filter px-2 flex-grow-1"
             >
               <option value="All">All</option>
               <option value="Work">Work</option>
@@ -161,7 +161,7 @@ const Tasks = () => {
             </select>
             <select
               onChange={(e) => setPriorityType(e.target.value)}
-              className="task-priority-filter px-2"
+              className="task-priority-filter px-2 flex-grow-1"
             >
               <option value="All">All</option>
               <option value="High">High</option>

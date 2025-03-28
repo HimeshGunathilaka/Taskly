@@ -422,6 +422,7 @@ button {
 .dashboard-header {
   max-width: 100%;
   background-color: white;
+  background-color: var(--bs-grey-v3);
   /* position: sticky;
   top: 0;
   left: 0;
@@ -496,13 +497,13 @@ button {
 }
 
 .dashboard-card-icon {
-  min-width: 40px;
-  min-height: 40px;
+  min-width: 30px;
+  min-height: 30px;
   /* border-radius: 12px; */
   color: white;
 
   i {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -539,6 +540,14 @@ button {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+}
+
+.dashboard-table-card-wrapper .search-bar-holder {
+  max-width: 500px;
+}
+
+.dashboard-filters-container {
+  max-width: 400px;
 }
 
 .dashboard-table-card-wrapper {
@@ -675,6 +684,7 @@ button {
 }
 
 .search-bar-holder {
+  max-width: 100%;
   min-width: 250px;
   height: 40px;
   background-color: var(--bs-grey-v3);
@@ -693,6 +703,10 @@ button {
   border: none;
   background-color: transparent;
   font-size: 1rem;
+}
+
+.tasks-fliters-container {
+  max-width: 700px;
 }
 
 .task-category-filter,
@@ -1183,7 +1197,26 @@ button {
   }
 }
 
+@media (max-width: 1000px) {
+  .search-bar-holder {
+    max-width: 100%;
+    flex-grow: 1;
+  }
+
+  .tasks-fliters-container {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
+  .dashboard-table-card-wrapper .search-bar-holder {
+    max-width: 100%;
+  }
+
+  .dashboard-filters-container {
+    max-width: 100%;
+  }
+
   .dashboard-table-description {
     max-width: 60%;
   }
@@ -1237,6 +1270,10 @@ button {
 
 @media (max-width: 400px) {
   .sidemenu-container-wrapper {
+    width: 100%;
+  }
+
+  .create-task-btn {
     width: 100%;
   }
 

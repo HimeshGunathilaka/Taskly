@@ -101,7 +101,7 @@ const Dashboard = () => {
 
   return (
     <div className="container-fluid dashboard-container w-100 h-100 p-0 m-0">
-      <div className="dashboard-header bg-white d-flex flex-row flex-wrap gap-3 row-gap-4 align-items-center justify-content-between p-3">
+      <div className="dashboard-header d-flex flex-row flex-wrap gap-3 row-gap-4 align-items-center justify-content-between p-3">
         <div className="d-flex flex-column">
           <h1 className="dashboard-title">Welcome {user?.username}!</h1>
           <p>
@@ -161,8 +161,8 @@ const Dashboard = () => {
                 Stay on track! These tasks are due today, complete them to keep
                 your productivity high.
               </p>
-              <div className="mt-4 d-flex flex-row align-items-center justify-content-between flex-wrap mb-3 w-100">
-                <div className="d-flex flex-row search-bar-holder align-items-center px-2 position-relative">
+              <div className="mt-4 d-flex flex-row align-items-center justify-content-between flex-wrap mb-3 w-100 row-gap-2 gap-2">
+                <div className="d-flex flex-row search-bar-holder align-items-center px-2 position-relative flex-grow-1">
                   <i className="bi bi-search search-icon me-2"></i>
                   <input
                     type="text"
@@ -172,10 +172,10 @@ const Dashboard = () => {
                     onChange={(e) => setKeyword(e.target.value)}
                   />
                 </div>
-                <div className="d-flex flex-row flex-wrap gap-2 row-gap-2">
+                <div className="dashboard-filters-container d-flex flex-row flex-wrap gap-2 row-gap-2 flex-grow-1">
                   <select
                     onChange={(e) => setPriorityType(e.target.value)}
-                    className="task-priority-filter px-2"
+                    className="task-priority-filter px-2 flex-grow-1"
                   >
                     <option value="All">All</option>
                     <option value="High">High</option>
@@ -184,7 +184,7 @@ const Dashboard = () => {
                   </select>
                   <select
                     onChange={(e) => setStatusType(e.target.value)}
-                    className="task-status-filter px-2"
+                    className="task-status-filter px-2 flex-grow-1"
                   >
                     <option value="All">All</option>
                     <option value="To do">To do</option>
@@ -193,7 +193,7 @@ const Dashboard = () => {
                   </select>
                   <select
                     onChange={(e) => setCategoryType(e.target.value)}
-                    className="task-category-filter px-2"
+                    className="task-category-filter px-2 flex-grow-1"
                   >
                     <option value="All">All</option>
                     <option value="Work">Work</option>
