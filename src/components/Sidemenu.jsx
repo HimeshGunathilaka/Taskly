@@ -6,16 +6,25 @@ const navigations = [
     icon: <i className="bi bi-boxes icon me-3"></i>,
     title: "Dashboard",
     path: "/",
+    openNotifications: false,
   },
   {
     icon: <i className="bi bi-list-task icon me-3"></i>,
     title: "My Tasks",
     path: "/to-do",
+    openNotifications: false,
+  },
+  {
+    icon: <i className="bi bi-bell me-3"></i>,
+    title: "Notifications",
+    path: "/notifications",
+    openNotifications: true,
   },
   {
     icon: <i className="bi bi-gear icon me-3"></i>,
     title: "Settings",
     path: "/settings",
+    openNotifications: false,
   },
 ];
 

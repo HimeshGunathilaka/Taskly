@@ -79,7 +79,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container d-flex align-items-center justify-content-center">
+    <div className="login-container container-fluid d-flex align-items-center justify-content-center">
       <div className="login-form p-3 row">
         <div className="col-6 login-left-container d-flex flex-column align-items-start p-0 pe-3">
           <div className="d-flex flex-row align-items-center justify-content-start w-100 mb-4">

@@ -186,7 +186,7 @@ const Tasks = () => {
             })}
           </div>
         ) : (
-          <Loading />
+          <Loading title={"tasks"} />
         )}
       </div>
     </>

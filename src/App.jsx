@@ -26,10 +26,32 @@ function App() {
   const [popupTitle, setPopupTitle] = useState("");
   const [success] = useSound(successSound);
   const [fail] = useSound(failSound);
+  const [pendingTasks, setPendingTasks] = useState([]);
+  const [overdueTasks, setOverdueTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [dueTodayTasks, setDueTodayTasks] = useState([]);
+  const [openNotifications, setOpenNotifications] = useState(false);
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
+
+  const isOverdue = (currentDate, statedDate) => {
+    const formatDate = (dateStr) => {
+      const [year, month, day] = dateStr.split("-").map(Number);
+      return new Date(year, month - 1, day).getTime();
+    };
+
+    const current = formatDate(currentDate);
+    const stated = formatDate(statedDate);
+
+    return current > stated;
+  };
 
   const fetchTasks = async () => {
     try {
-      console.log(parseInt(localStorage.getItem("user-id"), 10));
       const result = await service.getTasks();
       if (result?.status === 200) {
         const userId = parseInt(localStorage.getItem("user-id"), 10);
@@ -65,6 +87,37 @@ function App() {
   const refreshTasks = () => {
     fetchTasks();
   };
+
+  useEffect(() => {
+    setDueTodayTasks(
+      tasks?.filter(
+        (task) => task?.date === currentDate && task?.status !== "Completed"
+      )
+    );
+
+    console.log(
+      tasks?.filter(
+        (task) =>
+          !isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+      )
+    );
+
+    setPendingTasks(
+      tasks?.filter(
+        (task) =>
+          !isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+      )
+    );
+
+    setCompletedTasks(tasks?.filter((task) => task?.status === "Completed"));
+
+    setOverdueTasks(
+      tasks?.filter(
+        (task) =>
+          isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+      )
+    );
+  }, [tasks, currentDate]);
 
   useEffect(() => {
     setNavigation("/");
@@ -119,6 +172,12 @@ function App() {
           setPopupTitle,
           openTaskActions,
           setOpenTaskActions,
+          pendingTasks,
+          overdueTasks,
+          completedTasks,
+          dueTodayTasks,
+          openNotifications,
+          setOpenNotifications,
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />

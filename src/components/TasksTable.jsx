@@ -284,7 +284,7 @@ const TasksTable = () => {
             </tbody>
           </table>
         ) : (
-          <Loading />
+          <Loading title={"tasks"} />
         )}
       </div>
     </div>

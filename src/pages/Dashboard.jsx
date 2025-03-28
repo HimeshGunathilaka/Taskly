@@ -30,10 +30,18 @@ const months = [
 ];
 
 const Dashboard = () => {
-  const { tasks, user, keyword, setKeyword } = usePublicContext();
-  const [pendingTasks, setPendingTasks] = useState([]);
-  const [overdueTasks, setOverdueTasks] = useState([]);
-  const [completedTasks, setCompletedTasks] = useState([]);
+  const {
+    tasks,
+    user,
+    keyword,
+    setKeyword,
+    dueTodayTasks,
+    pendingTasks,
+    overdueTasks,
+    completedTasks,
+    setOpenNotifications,
+  } = usePublicContext();
+
   const [priorityType, setPriorityType] = useState("All");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [statusType, setStatusType] = useState("All");
@@ -44,35 +52,6 @@ const Dashboard = () => {
     String(new Date().getMonth() + 1).padStart(2, "0") +
     "-" +
     String(new Date().getDate()).padStart(2, "0");
-
-  const isOverdue = (currentDate, statedDate) => {
-    const formatDate = (dateStr) => {
-      const [year, month, day] = dateStr.split("-").map(Number);
-      return new Date(year, month - 1, day).getTime();
-    };
-
-    const current = formatDate(currentDate);
-    const stated = formatDate(statedDate);
-
-    return current > stated;
-  };
-
-  useEffect(() => {
-    setPendingTasks(
-      tasks?.filter(
-        (task) => task?.status === "To do" || task?.status === "In progress"
-      )
-    );
-
-    setCompletedTasks(tasks?.filter((task) => task?.status === "Completed"));
-
-    setOverdueTasks(
-      tasks?.filter(
-        (task) =>
-          isOverdue(currentDate, task?.date) && task?.status !== "Completed"
-      )
-    );
-  }, [tasks, currentDate]);
 
   useEffect(() => {
     const filteredByKeyword = tasks?.filter((task) =>
@@ -116,21 +95,39 @@ const Dashboard = () => {
             {months[new Date().getMonth()]} {new Date().getFullYear()}
           </p>
         </div>
-        <div className="flex-row dashboard-user-container">
-          <img
-            src="/images/8104.webp"
-            className="rounded-circle img-fluid"
-            alt="user-avatar"
-            loading="lazy"
-          />
-          <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
-            <p className="dashboard-user-name">{user?.username}</p>
-            <p className="dashboard-user-position">{user?.role}</p>
+        <div className="d-flex flex-row align-items-center gap-2">
+          {dueTodayTasks?.length > 0 && (
+            <button
+              className="notifications-button m-0 me-3 rounded-circle"
+              onClick={() => setOpenNotifications(true)}
+            >
+              <i className="bi bi-bell"></i>
+              <div className="notifications-active-indicator rounded-pill"></div>
+            </button>
+          )}
+          <div className="flex-row dashboard-user-container">
+            <img
+              src="/images/8104.webp"
+              className="rounded-circle img-fluid"
+              alt="user-avatar"
+              loading="lazy"
+            />
+            <div className="flex-grow-1 d-flex flex-column align-items-start ms-2">
+              <p className="dashboard-user-name">{user?.username}</p>
+              <p className="dashboard-user-position">{user?.role}</p>
+            </div>
           </div>
         </div>
       </div>
       <div className="dashboard-content w-100 d-flex flex-column">
         <div className="w-100 m-0 row-gap-3 gap-3 p-3 d-flex flex-row flex-wrap">
+          <DashboardAnalyticsCard
+            item={{
+              type: "Due Today",
+              count: dueTodayTasks.length,
+              title: "Total number of due today tasks",
+            }}
+          />
           <DashboardAnalyticsCard
             item={{
               type: "Pending",
@@ -140,22 +137,22 @@ const Dashboard = () => {
           />
           <DashboardAnalyticsCard
             item={{
-              type: "Completed",
-              count: completedTasks.length,
-              title: "Total number of completed tasks",
-            }}
-          />
-          <DashboardAnalyticsCard
-            item={{
               type: "Overdue",
               count: overdueTasks.length,
               title: "Total number of overdue tasks",
             }}
           />
+          <DashboardAnalyticsCard
+            item={{
+              type: "Completed",
+              count: completedTasks.length,
+              title: "Total number of completed tasks",
+            }}
+          />
         </div>
         {tasks?.length > 0 ? (
           <div className="d-flex flex-column dashboard-table-card-wrapper">
-            <div className="w-100 d-flex flex-column align-items-start mb-3 mt-3 px-3 row-gap-2">
+            <div className="w-100 d-flex flex-column align-items-start my-4 px-3 row-gap-2">
               <h1 className="dashboard-table-header">Tasks due today</h1>
               <p className="m-0 dashboard-table-description">
                 Stay on track! These tasks are due today, complete them to keep
@@ -222,10 +219,10 @@ const Dashboard = () => {
                       return <Task key={index} task={task} />;
                     })
                 ) : (
-                  <Loading />
+                  <Loading title={"tasks"} />
                 )
               ) : (
-                <Loading />
+                <Loading title={"tasks"} />
               )}
             </div>
             {/* <TasksTable /> */}

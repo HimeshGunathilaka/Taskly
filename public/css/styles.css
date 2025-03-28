@@ -147,7 +147,8 @@ button {
   border-radius: 30px;
   /* background-color: rgba(255, 255, 255, 0.2); */
   background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .login-form-container {
@@ -378,7 +379,7 @@ button {
 
 .sidemenu-list-btn {
   width: 100%;
-  height: 40px;
+  height: 50px;
   text-align: start;
   padding-left: 20px;
   background-color: transparent;
@@ -405,6 +406,7 @@ button {
   max-width: 100%;
   min-width: calc(100% - 250px);
   max-height: 100%;
+  position: relative;
 }
 
 /* Dashboard */
@@ -417,6 +419,28 @@ button {
 .dashboard-title {
   font-size: 1.3rem;
   font-weight: bold;
+}
+
+.notifications-button {
+  position: relative;
+  background: transparent;
+  width: 45px;
+  height: 45px;
+  font-size: 1.4rem;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--bs-grey-v1);
+  }
+}
+
+.notifications-active-indicator {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--bs-red-v2);
 }
 
 .dashboard-header {
@@ -459,6 +483,14 @@ button {
   animation: appear 0.7s ease-in-out forwards;
 }
 
+.dashboard-analytics-card {
+  transition: 0.3s ease-in-out;
+
+  &:hover .dashboard-card-icon {
+    transform: scale(1.1);
+  }
+}
+
 /* .dashboard-analytics-card {
   padding-left: 15px !important;
 } */
@@ -469,7 +501,8 @@ button {
 
 .dashboard-analytics-card-content {
   /* border-radius: 15px; */
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   /* animation: appear 0.7s ease-in-out forwards; */
   transition: 0.3s ease-in-out;
   /* min-height: 100px; */
@@ -499,12 +532,17 @@ button {
 .dashboard-card-icon {
   min-width: 30px;
   min-height: 30px;
+  overflow: hidden;
   /* border-radius: 12px; */
   color: white;
 
   i {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
+}
+
+.dashboard-card-icon.due-today {
+  background-color: var(--bs-orange-v2);
 }
 
 .dashboard-card-icon.pending {
@@ -525,7 +563,8 @@ button {
 }
 
 .scrolled {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .dashboard-tasks-header .search-bar-holder,
@@ -555,7 +594,7 @@ button {
 }
 
 .dashboard-table-header {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   text-align: start;
 }
@@ -755,7 +794,8 @@ button {
 
 .task-card-content {
   border-radius: 15px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   animation: popup 0.7s ease-in-out forwards;
   transition: 0.3s ease-in-out;
 }
@@ -950,7 +990,8 @@ button {
   bottom: -27px;
   right: 70px;
   position: absolute;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   border-radius: 15px;
   z-index: 50;
 }
@@ -974,6 +1015,31 @@ button {
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
   }
+}
+
+/* Notifications */
+.notifications-container {
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.notification-card {
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.notification-card-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--bs-grey-v3);
 }
 
 /* Settings */
@@ -1198,6 +1264,11 @@ button {
 }
 
 @media (max-width: 1000px) {
+  .dashboard-analytics-card {
+    width: 40%;
+    max-width: 50%;
+  }
+
   .search-bar-holder {
     max-width: 100%;
     flex-grow: 1;
@@ -1268,6 +1339,13 @@ button {
   }
 }
 
+@media (max-width: 450px) {
+  .dashboard-analytics-card {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 400px) {
   .sidemenu-container-wrapper {
     width: 100%;
@@ -1296,7 +1374,8 @@ button {
     tr {
       border-radius: 15px;
       margin-bottom: 25px;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
     }
 
     table,

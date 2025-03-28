@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import Lottie from "lottie-react";
 import animationData from "../animations/empty.json";
 
-const Loading = () => {
+const Loading = ({ title }) => {
   const memoizedAnimation = useMemo(() => animationData, []);
 
   return (
@@ -14,7 +14,7 @@ const Loading = () => {
         autoplay
         style={{ width: "130px" }}
       />
-      <p className="m-0 p-0 mt-2">No tasks found !</p>
+      <p className="m-0 p-0 mt-2">No {title} found !</p>
     </div>
   );
 };
