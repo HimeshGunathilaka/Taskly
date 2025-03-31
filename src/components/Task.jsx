@@ -192,6 +192,7 @@ const Task = ({ task }) => {
           >
             {task?.title}
           </p>
+          <p className="task-card-description mt-3 mb-3">{task?.description}</p>
           <p className="task-card-date p-0 m-0 mt-auto">- {task?.date}</p>
         </div>
         <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2 gap-3">

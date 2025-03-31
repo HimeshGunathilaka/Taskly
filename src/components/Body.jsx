@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePublicContext } from "../context/Context";
 import Dashboard from "../pages/Dashboard";
 import Notifications from "../pages/Notifications";
@@ -6,14 +6,22 @@ import Settings from "../pages/Settings";
 import Tasks from "../pages/Tasks";
 
 const Body = () => {
-  const { navigation } = usePublicContext();
-  const [previousNavigation, setPreviousNavigation] = useState("");
+  const {
+    navigation,
+    openNotifications,
+    previousNavigation,
+    setPreviousNavigation,
+  } = usePublicContext();
+
+  useEffect(() => {
+    console.log(navigation);
+  }, [navigation]);
 
   useEffect(() => {
     if (navigation !== "/notifications") {
       setPreviousNavigation(navigation);
     }
-  }, [navigation]);
+  }, [navigation, setPreviousNavigation]);
   return (
     <div className="body-container">
       {navigation === "/" ? (
@@ -24,7 +32,7 @@ const Body = () => {
         <Settings />
       ) : navigation === "/notifications" ? (
         <>
-          <Notifications />
+          {openNotifications && <Notifications />}
           {previousNavigation === "/" ? (
             <Dashboard />
           ) : previousNavigation === "/to-do" ? (

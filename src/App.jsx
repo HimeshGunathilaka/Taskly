@@ -30,6 +30,7 @@ function App() {
   const [overdueTasks, setOverdueTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [dueTodayTasks, setDueTodayTasks] = useState([]);
+  const [previousNavigation, setPreviousNavigation] = useState("");
   const [openNotifications, setOpenNotifications] = useState(false);
   const currentDate =
     new Date().getFullYear() +
@@ -178,6 +179,8 @@ function App() {
           dueTodayTasks,
           openNotifications,
           setOpenNotifications,
+          previousNavigation,
+          setPreviousNavigation,
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />

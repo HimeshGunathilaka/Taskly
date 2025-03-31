@@ -39,6 +39,7 @@ const Dashboard = () => {
     pendingTasks,
     overdueTasks,
     completedTasks,
+    setNavigation,
     setOpenNotifications,
   } = usePublicContext();
 
@@ -99,7 +100,10 @@ const Dashboard = () => {
           {dueTodayTasks?.length > 0 && (
             <button
               className="notifications-button m-0 me-3 rounded-circle"
-              onClick={() => setOpenNotifications(true)}
+              onClick={() => {
+                setOpenNotifications(true);
+                setNavigation("/notifications");
+              }}
             >
               <i className="bi bi-bell"></i>
               <div className="notifications-active-indicator rounded-pill"></div>

@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import service from "../services/service";
 import { usePublicContext } from "../context/Context";
+import { useState } from "react";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("* Title is required"),
@@ -15,9 +16,14 @@ const validationSchema = Yup.object({
     .oneOf(["To do", "In progress", "Completed"])
     .required("* Status is required"),
   date: Yup.date().required("* Date is required").nullable(),
+  description: Yup.string().max(
+    255,
+    "* Character count should not be over 255 characters."
+  ),
 });
 
 const CreateTaskForm = () => {
+  const [description, setDescription] = useState("");
   const { alert, refreshTasks, setOpenPopup } = usePublicContext();
 
   const handleSubmit = async (values, setSubmitting, resetForm) => {
@@ -29,6 +35,7 @@ const CreateTaskForm = () => {
         status: values.status,
         priority: values.priority,
         date: values.date,
+        description: values.description ? values.description : "",
       });
 
       if (result.status === 200) {
@@ -58,6 +65,7 @@ const CreateTaskForm = () => {
         priority: "",
         status: "",
         date: "",
+        description: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -146,6 +154,27 @@ const CreateTaskForm = () => {
             className="m-0 mt-2 px-2 py-1 date-picker"
           />
           <ErrorMessage name="date" component="div" className="error-text" />
+
+          <label className="mt-2" htmlFor="description">
+            Description
+          </label>
+          <Field
+            as="textarea"
+            id="description"
+            name="description"
+            className="m-0 mt-2 px-2 py-1 form-text-area text-start"
+            placeholder="Enter your description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <p className="character-count mt-1 text-end">
+            {255 - description?.length} / 255
+          </p>
+          <ErrorMessage
+            name="description"
+            component="div"
+            className="error-text"
+          />
 
           <button
             type="submit"

@@ -31,7 +31,8 @@ const navigations = [
 const Sidemenu = () => {
   const [openSidemenu, setOpenSideMenu] = useState(true);
   const [width, setWidth] = useState(window.innerWidth);
-  const { navigation, setNavigation } = usePublicContext();
+  const { navigation, setNavigation, setOpenNotifications } =
+    usePublicContext();
 
   useEffect(() => {
     setOpenSideMenu(true);
@@ -74,6 +75,9 @@ const Sidemenu = () => {
                         item.path === navigation && `active`
                       }`}
                       onClick={() => {
+                        if (item?.path === "/notifications") {
+                          setOpenNotifications(true);
+                        }
                         setNavigation(item?.path);
                         width <= 768 && setOpenSideMenu(false);
                       }}
