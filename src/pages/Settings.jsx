@@ -8,7 +8,7 @@ const Settings = () => {
     localStorage.setItem("user-id", "");
     localStorage.setItem("user-name", "");
     localStorage.setItem("user-role", "");
-    alert(false, "You have signed out successfully !");
+    alert(false, "You have signed out successfully !", true);
   };
 
   return (

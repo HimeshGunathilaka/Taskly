@@ -2,9 +2,17 @@ import { useEffect, useState } from "react";
 import UpdateTask from "./UpdateTask";
 import { usePublicContext } from "../context/Context";
 import service from "../services/service";
+import useSound from "use-sound";
+import successSound from "../audio/yay-6120.mp3";
 
 const Task = ({ task }) => {
   const [hover, setHover] = useState(false);
+  const [completed] = useSound(successSound);
+  const [remainingDays, setRemainingDays] = useState({
+    years: 0,
+    months: 0,
+    days: 0,
+  });
   const {
     setSelectedTask,
     refreshTasks,
@@ -13,6 +21,12 @@ const Task = ({ task }) => {
     setOpenTaskActions,
     selectedTask,
   } = usePublicContext();
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
 
   useEffect(() => {
     setOpenTaskActions(false);
@@ -20,20 +34,40 @@ const Task = ({ task }) => {
 
   const isOverdue = (currentDate, statedDate) => {
     const formatDate = (dateStr) => {
-      const [day, month, year] = dateStr.split("-").map(Number);
+      const [year, month, day] = dateStr.split("-").map(Number);
       return new Date(year, month - 1, day).getTime();
     };
 
-    let date1 = formatDate(currentDate);
-    let date2 = formatDate(statedDate);
+    const current = formatDate(currentDate);
+    const stated = formatDate(statedDate);
 
-    if (date1 < date2) {
-      return false;
-    } else if (date1 > date2) {
-      return true;
-    } else {
-      return false;
+    return current > stated;
+  };
+
+  const getTimeRemaining = (currentDate, dueDate) => {
+    const current = new Date(currentDate);
+    const due = new Date(dueDate);
+
+    if (current >= due) {
+      return { years: 0, months: 0, days: 0 };
     }
+
+    let years = due.getFullYear() - current.getFullYear();
+    let months = due.getMonth() - current.getMonth();
+    let days = due.getDate() - current.getDate();
+
+    if (days < 0) {
+      months--;
+      const tempDate = new Date(due.getFullYear(), due.getMonth(), 0);
+      days += tempDate.getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    return { years: years, months: months, days: days };
   };
 
   const changeStatusToCompleted = async (id) => {
@@ -41,20 +75,26 @@ const Task = ({ task }) => {
       const result = await service.updateTaskStatusToCompleted(id);
 
       if (result.status === 200) {
-        alert(false, result?.message);
+        completed();
+        alert(false, result?.message, false);
       } else {
-        alert(true, result?.message);
+        alert(true, result?.message, true);
       }
     } catch (error) {
       alert(
         true,
-        "Sorry, server is busy or not available right now. Please try again later !"
+        "Sorry, server is busy or not available right now. Please try again later !",
+        true
       );
       console.log(error);
     } finally {
       refreshTasks();
     }
   };
+
+  useEffect(() => {
+    setRemainingDays(getTimeRemaining(currentDate, task?.date));
+  }, [task, currentDate]);
   return (
     <div className="task-card col-xl-4 col-lg-4 col-md-6 col-sm-12">
       {openTaskActions && selectedTask?.id === task?.id && <UpdateTask />}
@@ -62,13 +102,26 @@ const Task = ({ task }) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className={`task-card-content d-flex flex-column w-100 h-100 p-3 justify-content-between ${
-          hover && task?.priority === "High"
+          hover &&
+          task?.status !== "Completed" &&
+          !isOverdue(currentDate, task?.date) &&
+          task?.priority === "High"
             ? `high`
-            : hover && task?.priority === "Medium"
+            : hover &&
+              task?.status !== "Completed" &&
+              !isOverdue(currentDate, task?.date) &&
+              task?.priority === "Medium"
             ? `medium`
-            : hover && task?.priority === "Low"
+            : hover &&
+              task?.status !== "Completed" &&
+              !isOverdue(currentDate, task?.date) &&
+              task?.priority === "Low"
             ? `low`
             : ``
+        } ${
+          task?.status === "Completed"
+            ? `completed`
+            : isOverdue(currentDate, task?.date) && `high`
         }`}
       >
         <div className="w-100 d-flex flex-column flex-grow-1">
@@ -139,26 +192,47 @@ const Task = ({ task }) => {
           >
             {task?.title}
           </p>
+          <p className="task-card-description mt-3 mb-3">{task?.description}</p>
           <p className="task-card-date p-0 m-0 mt-auto">- {task?.date}</p>
         </div>
-        <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2">
-          <p className="p-0 m-0 task-card-status-overdue">
-            <span className="me-2">
-              <i className="bi bi-clock-history"></i>
-            </span>
-            {task?.status !== "Completed"
-              ? isOverdue(
-                  new Date().getFullYear() +
-                    "-" +
-                    new Date().getMonth() +
-                    "-" +
-                    new Date().getDate(),
-                  task?.date
-                )
-                ? "Overdue"
-                : "Active"
-              : "Expired"}
-          </p>
+        <div className="w-100 d-flex flex-row task-actions-container align-items-end mt-2 gap-3">
+          <div
+            className={`p-0 m-0 task-card-status-overdue d-flex flex-row ${
+              isOverdue(currentDate, task?.date) && `overdue`
+            }`}
+          >
+            {task?.status !== "Completed" && (
+              <>
+                <span
+                  className={`me-2 ${
+                    isOverdue(currentDate, task?.date) && `overdue`
+                  }`}
+                >
+                  <i className="bi bi-clock-history"></i>
+                </span>
+                {isOverdue(currentDate, task?.date)
+                  ? "Overdue"
+                  : task?.date === currentDate
+                  ? "Due today"
+                  : `${`${
+                      remainingDays?.years > 0
+                        ? `${remainingDays?.years} years${
+                            remainingDays?.months > 0 && `,`
+                          }`
+                        : ``
+                    }
+                            ${
+                              remainingDays?.months > 0
+                                ? `${remainingDays?.months} months${
+                                    remainingDays?.days > 0 && ` and`
+                                  } `
+                                : ``
+                            }
+                          
+                         ${remainingDays?.days} days`} remaining`}
+              </>
+            )}
+          </div>
           <button
             className="task-actions-btn rounded-2 ms-auto"
             onClick={() => {

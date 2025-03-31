@@ -6,23 +6,33 @@ const navigations = [
     icon: <i className="bi bi-boxes icon me-3"></i>,
     title: "Dashboard",
     path: "/",
+    openNotifications: false,
   },
   {
     icon: <i className="bi bi-list-task icon me-3"></i>,
-    title: "To do list",
+    title: "My Tasks",
     path: "/to-do",
+    openNotifications: false,
+  },
+  {
+    icon: <i className="bi bi-bell me-3"></i>,
+    title: "Notifications",
+    path: "/notifications",
+    openNotifications: true,
   },
   {
     icon: <i className="bi bi-gear icon me-3"></i>,
     title: "Settings",
     path: "/settings",
+    openNotifications: false,
   },
 ];
 
 const Sidemenu = () => {
   const [openSidemenu, setOpenSideMenu] = useState(true);
   const [width, setWidth] = useState(window.innerWidth);
-  const { navigation, setNavigation } = usePublicContext();
+  const { navigation, setNavigation, setOpenNotifications } =
+    usePublicContext();
 
   useEffect(() => {
     setOpenSideMenu(true);
@@ -65,6 +75,9 @@ const Sidemenu = () => {
                         item.path === navigation && `active`
                       }`}
                       onClick={() => {
+                        if (item?.path === "/notifications") {
+                          setOpenNotifications(true);
+                        }
                         setNavigation(item?.path);
                         width <= 768 && setOpenSideMenu(false);
                       }}

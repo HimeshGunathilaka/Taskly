@@ -9,6 +9,9 @@ import Body from "./components/Body";
 import Login from "./pages/Login";
 import toast, { Toaster } from "react-hot-toast";
 import service from "./services/service";
+import useSound from "use-sound";
+import successSound from "./audio/success.mp3";
+import failSound from "./audio/fail.mp3";
 
 function App() {
   const [openTaskActions, setOpenTaskActions] = useState(false);
@@ -21,6 +24,32 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [popupTitle, setPopupTitle] = useState("");
+  const [success] = useSound(successSound);
+  const [fail] = useSound(failSound);
+  const [pendingTasks, setPendingTasks] = useState([]);
+  const [overdueTasks, setOverdueTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [dueTodayTasks, setDueTodayTasks] = useState([]);
+  const [previousNavigation, setPreviousNavigation] = useState("");
+  const [openNotifications, setOpenNotifications] = useState(false);
+  const currentDate =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
+
+  const isOverdue = (currentDate, statedDate) => {
+    const formatDate = (dateStr) => {
+      const [year, month, day] = dateStr.split("-").map(Number);
+      return new Date(year, month - 1, day).getTime();
+    };
+
+    const current = formatDate(currentDate);
+    const stated = formatDate(statedDate);
+
+    return current > stated;
+  };
 
   const fetchTasks = async () => {
     try {
@@ -32,6 +61,7 @@ function App() {
           setTasks([]);
           return;
         }
+
         const list = result?.data
           .filter((task) => task?.user_id === userId)
           .map((task) => {
@@ -60,6 +90,37 @@ function App() {
   };
 
   useEffect(() => {
+    setDueTodayTasks(
+      tasks?.filter(
+        (task) => task?.date === currentDate && task?.status !== "Completed"
+      )
+    );
+
+    console.log(
+      tasks?.filter(
+        (task) =>
+          !isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+      )
+    );
+
+    setPendingTasks(
+      tasks?.filter(
+        (task) =>
+          !isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+      )
+    );
+
+    setCompletedTasks(tasks?.filter((task) => task?.status === "Completed"));
+
+    setOverdueTasks(
+      tasks?.filter(
+        (task) =>
+          isOverdue(currentDate, task?.date) && task?.status !== "Completed"
+      )
+    );
+  }, [tasks, currentDate]);
+
+  useEffect(() => {
     setNavigation("/");
     if (localStorage.getItem("user-id")) {
       setUser({
@@ -73,10 +134,16 @@ function App() {
     }
   }, []);
 
-  const alert = (error, message) => {
+  const alert = (error, message, sound) => {
     if (error) {
+      if (sound) {
+        fail();
+      }
       toast.error(message);
     } else {
+      if (sound) {
+        success();
+      }
       toast.success(message);
     }
   };
@@ -106,6 +173,14 @@ function App() {
           setPopupTitle,
           openTaskActions,
           setOpenTaskActions,
+          pendingTasks,
+          overdueTasks,
+          completedTasks,
+          dueTodayTasks,
+          openNotifications,
+          setOpenNotifications,
+          previousNavigation,
+          setPreviousNavigation,
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />

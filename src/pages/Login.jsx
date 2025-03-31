@@ -19,7 +19,7 @@ const signupSchema = Yup.object({
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const { setIsUserLoggedIn, alert, setUser, setNavigation } =
+  const { setIsUserLoggedIn, alert, setUser, setNavigation, refreshTasks } =
     usePublicContext();
 
   const initialValues = {
@@ -41,12 +41,12 @@ const Login = () => {
           localStorage.setItem("user-id", result.data?.id);
           localStorage.setItem("user-name", result.data?.username);
           localStorage.setItem("user-role", result.data?.role);
-          alert(false, result?.message);
+          alert(false, result?.message, true);
           setIsUserLoggedIn(true);
           setUser(result?.data);
           setNavigation("/");
         } else {
-          alert(true, result?.message);
+          alert(true, result?.message, true);
         }
       } else {
         result = await service.signUp({
@@ -56,28 +56,30 @@ const Login = () => {
         });
 
         if (result.status === 200) {
-          alert(false, result?.message);
+          alert(false, result?.message, true);
         } else {
-          alert(true, result?.message);
+          alert(true, result?.message, true);
         }
       }
       setSubmitting(false);
     } catch (error) {
       alert(
         true,
-        "Sorry, server is busy or not available right now. Please try again later !"
+        "Sorry, server is busy or not available right now. Please try again later !",
+        true
       );
       localStorage.setItem("user-id", "");
       localStorage.setItem("user-name", "");
       localStorage.setItem("user-role", "");
       console.log(error.message);
     } finally {
+      refreshTasks();
       resetForm();
     }
   };
 
   return (
-    <div className="login-container d-flex align-items-center justify-content-center">
+    <div className="login-container container-fluid d-flex align-items-center justify-content-center">
       <div className="login-form p-3 row">
         <div className="col-6 login-left-container d-flex flex-column align-items-start p-0 pe-3">
           <div className="d-flex flex-row align-items-center justify-content-start w-100 mb-4">
